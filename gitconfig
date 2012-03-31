@@ -1,0 +1,21 @@
+[user]
+	name = Peter Hill
+	email = zed.three@gmail.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[merge]
+	summary = true
+[alias]
+	co = checkout
+	st = status
+	cm = commit
+	last = log -1 HEAD
+[apply]
+	whitespace = nowarn
+[core]
+	excludesfile = ~/.gitignore
+[gc]
+	auto = 1
