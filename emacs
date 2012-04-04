@@ -90,3 +90,22 @@ Frame must be declared as an environment."
   (if (not (window-minibuffer-p)) (current-buffer)
       (if (eq (get-lru-window) (next-window))
 	    (window-buffer (previous-window)) (window-buffer (next-window)))))
+
+;; Start auctex automatically.
+(load "auctex.el" nil t t)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+;; reftex
+(require 'tex-site)
+(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
+(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
+;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
+;; Spell-checking on the fly
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
