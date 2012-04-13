@@ -18,7 +18,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(delete-selection-mode nil)
- '(font-latex-match-reference-keywords (quote (("cref" "{") ("autoref" "{"))))
+ '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(inhibit-startup-screen t)
  '(mark-even-if-inactive t)
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
