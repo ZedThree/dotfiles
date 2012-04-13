@@ -20,6 +20,7 @@
  '(delete-selection-mode nil)
  '(inhibit-startup-screen t)
  '(mark-even-if-inactive t)
+ '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
  '(transient-mark-mode 1))
 (custom-set-faces
