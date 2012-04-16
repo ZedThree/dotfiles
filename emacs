@@ -20,6 +20,7 @@
  '(delete-selection-mode nil)
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(inhibit-startup-screen t)
+ '(linum-format "%d ")
  '(mark-even-if-inactive t)
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
@@ -29,7 +30,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(linum ((t (:inherit (shadow default) :foreground "black")))))
 (setq read-file-name-completion-ignore-case t)
 (setq compile-command "pdflatex *.tex")
 
