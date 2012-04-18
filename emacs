@@ -109,6 +109,14 @@ Frame must be declared as an environment."
 (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
 ;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; changes \ref to \cref when inserting a reference
+(defun reftex-format-cref (label def-fmt)
+  (format "\\cref{%s}" label))
+(setq reftex-format-ref-function 'reftex-format-cref)
 
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+
+;; linum mode
+(require 'linum)
+(global-linum-mode)
