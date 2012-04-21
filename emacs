@@ -22,6 +22,7 @@
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
+ '(reb-re-syntax (quote string))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
  '(transient-mark-mode 1))
