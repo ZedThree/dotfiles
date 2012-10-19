@@ -7,9 +7,9 @@
 (savehist-mode 1)
 
 ;; matlab-mode stuff
-(autoload 'matlab-mode "~/matlab.el" "Enter Matlab mode." t)
+(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
-(autoload 'matlab-shell "~/matlab.el" "Interactive Matlab mode." t)
+(autoload 'matlab-shell "~/emacs.d/matlab.el" "Interactive Matlab mode." t)
 (setq auto-mode-alist (cons '("\\.F90$" . f90-mode) auto-mode-alist))
 (defun my-matlab-mode-hook ()  (setq fill-column 90))
 (custom-set-variables
@@ -22,6 +22,7 @@
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
+ '(org-agenda-files (quote ("~/Documents/notes/mylife.org" "~/Documents/notes/work.org")))
  '(reb-re-syntax (quote string))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
@@ -39,25 +40,25 @@
 
 (setq TeX-region "regionsje")
 (defun my-beamer-mode ()
-"My adds on for when in beamer."
+  "My adds on for when in beamer."
 
-;; when in a Beamer file I want to use pdflatex.
-;; Thanks to Ralf Angeli for this.
-(TeX-PDF-mode 1) ;turn on PDF mode.
+  ;; when in a Beamer file I want to use pdflatex.
+  ;; Thanks to Ralf Angeli for this.
+  (TeX-PDF-mode 1) ;turn on PDF mode.
 
-;; Tell reftex to treat \lecture and \frametitle as section commands
-;; so that C-c = gives you a list of frametitles and you can easily
-;; navigate around the list of frames.
-;; If you change reftex-section-level, reftex needs to be reset so that
-;; reftex-section-regexp is correctly remade.
-(require 'reftex)
-(set (make-local-variable 'reftex-section-levels)
-'(("lecture" . 1) ("frametitle" . 2)))
-(reftex-reset-mode)
+  ;; Tell reftex to treat \lecture and \frametitle as section commands
+  ;; so that C-c = gives you a list of frametitles and you can easily
+  ;; navigate around the list of frames.
+  ;; If you change reftex-section-level, reftex needs to be reset so that
+  ;; reftex-section-regexp is correctly remade.
+  (require 'reftex)
+  (set (make-local-variable 'reftex-section-levels)
+       '(("lecture" . 1) ("frametitle" . 2)))
+  (reftex-reset-mode)
 
-;; add some extra functions.
-(define-key LaTeX-mode-map "\C-cf" 'beamer-template-frame)
-(define-key LaTeX-mode-map "\C-\M-x" 'tex-frame)
+  ;; add some extra functions.
+  (define-key LaTeX-mode-map "\C-cf" 'beamer-template-frame)
+  (define-key LaTeX-mode-map "\C-\M-x" 'tex-frame)
 )
 
 (defun tex-frame ()
@@ -78,11 +79,11 @@ Frame must be declared as an environment."
 
 
 (defun beamer-template-frame ()
-"Create a simple template and move point to after \\frametitle."
-(interactive)
-(latex-insert-block "frame")
-(insert "\\frametitle{}")
-(backward-char 1))
+  "Create a simple template and move point to after \\frametitle."
+  (interactive)
+  (LaTeX-environment-menu "frame")
+  (insert "\\frametitle{}")
+  (backward-char 1))
 
 (define-key minibuffer-local-map
   [f3] (lambda () (interactive) 
@@ -121,3 +122,63 @@ Frame must be declared as an environment."
 ;; linum mode
 (require 'linum)
 (global-linum-mode)
+		
+(add-hook 'LaTeX-mode-hook
+	  (lambda()
+	    (LaTeX-add-environments
+	     '("block" "title"))))
+(add-hook 'LaTeX-mode-hook
+	  (lambda()
+	    (LaTeX-add-environments
+	     '("varblock" "title" "width"))))
+(put 'narrow-to-region 'disabled nil)
+
+;; org-mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(require 'remember)
+
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+
+(define-key global-map [(control meta ?r)] 'remember)
+
+(custom-set-variables
+ '(org-agenda-files (quote ("~/Dropbox/orgmode/")))
+ '(org-default-notes-file "~/Dropbox/orgmode/notes.org")
+ '(org-agenda-ndays 7)
+ '(org-deadline-warning-days 14)
+ '(org-agenda-show-all-dates t)
+ '(org-agenda-skip-deadline-if-done t)
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-reverse-note-order t)
+ '(org-fast-tag-selection-single-key (quote expert))
+ ;; '(org-agenda-custom-commands
+ ;;   (quote (("d" todo "DELEGATED" nil)
+ ;;       ("c" todo "DONE|DEFERRED|CANCELLED" nil)
+ ;;       ("w" todo "WAITING" nil)
+ ;;       ("W" agenda "" ((org-agenda-ndays 21)))
+ ;;       ("A" agenda ""
+ ;;        ((org-agenda-skip-function
+ ;;          (lambda nil
+ ;;        (org-agenda-skip-entry-if (quote notregexp) "\\=.*\\[#A\\]")))
+ ;;         (org-agenda-ndays 1)
+ ;;         (org-agenda-overriding-header "Today's Priority #A tasks: ")))
+ ;;       ("u" alltodo ""
+ ;;        ((org-agenda-skip-function
+ ;;          (lambda nil
+ ;;        (org-agenda-skip-entry-if (quote scheduled) (quote deadline)
+ ;;                      (quote regexp) "\n]+>")))
+ ;;         (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
+ '(org-remember-store-without-prompt t)
+ '(org-remember-templates
+   (quote ((116 "* TODO %?\n  %u" "~/Dropbox/orgmode/mylife.org" "Tasks")
+       (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
+ '(remember-annotation-functions (quote (org-remember-annotation)))
+ '(remember-handler-functions (quote (org-remember-handler))))
+
+;; let me copy and paste to X11 clipboard
+(load-file "~/.emacs.d/xclip.el")
