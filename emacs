@@ -6,12 +6,23 @@
 ;; start in savehist mode
 (savehist-mode 1)
 
+;; Set MajorMode preferences based on filenames
+(setq auto-mode-alist 
+      (append 
+       '(("\\emacs\\'" . emacs-lisp-mode)
+	 ("\\.F90\\'"  . f90-mode)
+	 ("\\.f03\\'"  . f90-mode)
+	 ("\\.m\\'"    . matlab-mode))
+       auto-mode-alist))
+
+;; Follow symlinks
+(setq vc-follow-symlinks nil)
+
 ;; matlab-mode stuff
 (autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
 (autoload 'matlab-shell "~/emacs.d/matlab.el" "Interactive Matlab mode." t)
-(setq auto-mode-alist (cons '("\\.F90$" . f90-mode) auto-mode-alist))
 (defun my-matlab-mode-hook ()  (setq fill-column 90))
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -22,8 +33,22 @@
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
- '(org-agenda-files (quote ("~/Documents/notes/mylife.org" "~/Documents/notes/work.org")))
+ '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
+ '(org-agenda-ndays 7)
+ '(org-agenda-show-all-dates t)
+ '(org-agenda-skip-deadline-if-done t)
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-deadline-warning-days 14)
+ '(org-default-notes-file "~/Dropbox/orgmode/notes.org")
+ '(org-fast-tag-selection-single-key (quote expert))
+ '(org-remember-store-without-prompt t)
+ '(org-remember-templates (quote ((116 "* TODO %?
+  %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
+ '(org-reverse-note-order t)
  '(reb-re-syntax (quote string))
+ '(remember-annotation-functions (quote (org-remember-annotation)))
+ '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
  '(transient-mark-mode 1))
@@ -33,11 +58,13 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(linum ((t (:inherit (shadow default) :foreground "black")))))
+
+;; Ignore case in tab-completing filenames
 (setq read-file-name-completion-ignore-case t)
-(setq compile-command "pdflatex *.tex")
 
+;; LaTeX stuff
+;; (setq compile-command "pdflatex *.tex")
 (eval-after-load "tex"'(TeX-add-style-hook "beamer" 'my-beamer-mode))
-
 (setq TeX-region "regionsje")
 (defun my-beamer-mode ()
   "My adds on for when in beamer."
@@ -89,13 +116,6 @@ Frame must be declared as an environment."
   [f3] (lambda () (interactive) 
        (insert (buffer-name (current-buffer-not-mini)))))
 
-(defun current-buffer-not-mini ()
-  "Return current-buffer if current buffer is not the *mini-buffer*
-  else return buffer before minibuf is activated."
-  (if (not (window-minibuffer-p)) (current-buffer)
-      (if (eq (get-lru-window) (next-window))
-	    (window-buffer (previous-window)) (window-buffer (next-window)))))
-
 ;; Start auctex automatically.
 (load "auctex.el" nil t t)
 (setq TeX-auto-save t)
@@ -138,47 +158,17 @@ Frame must be declared as an environment."
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-
 (require 'remember)
-
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
-
 (define-key global-map [(control meta ?r)] 'remember)
 
-(custom-set-variables
- '(org-agenda-files (quote ("~/Dropbox/orgmode/")))
- '(org-default-notes-file "~/Dropbox/orgmode/notes.org")
- '(org-agenda-ndays 7)
- '(org-deadline-warning-days 14)
- '(org-agenda-show-all-dates t)
- '(org-agenda-skip-deadline-if-done t)
- '(org-agenda-skip-scheduled-if-done t)
- '(org-agenda-start-on-weekday nil)
- '(org-reverse-note-order t)
- '(org-fast-tag-selection-single-key (quote expert))
- ;; '(org-agenda-custom-commands
- ;;   (quote (("d" todo "DELEGATED" nil)
- ;;       ("c" todo "DONE|DEFERRED|CANCELLED" nil)
- ;;       ("w" todo "WAITING" nil)
- ;;       ("W" agenda "" ((org-agenda-ndays 21)))
- ;;       ("A" agenda ""
- ;;        ((org-agenda-skip-function
- ;;          (lambda nil
- ;;        (org-agenda-skip-entry-if (quote notregexp) "\\=.*\\[#A\\]")))
- ;;         (org-agenda-ndays 1)
- ;;         (org-agenda-overriding-header "Today's Priority #A tasks: ")))
- ;;       ("u" alltodo ""
- ;;        ((org-agenda-skip-function
- ;;          (lambda nil
- ;;        (org-agenda-skip-entry-if (quote scheduled) (quote deadline)
- ;;                      (quote regexp) "\n]+>")))
- ;;         (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
- '(org-remember-store-without-prompt t)
- '(org-remember-templates
-   (quote ((116 "* TODO %?\n  %u" "~/Dropbox/orgmode/mylife.org" "Tasks")
-       (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
- '(remember-annotation-functions (quote (org-remember-annotation)))
- '(remember-handler-functions (quote (org-remember-handler))))
+;; Useful functions
+(defun current-buffer-not-mini ()
+  "Return current-buffer if current buffer is not the *mini-buffer*
+  else return buffer before minibuf is activated."
+  (if (not (window-minibuffer-p)) (current-buffer)
+      (if (eq (get-lru-window) (next-window))
+	    (window-buffer (previous-window)) (window-buffer (next-window)))))
 
 ;; let me copy and paste to X11 clipboard
 (load-file "~/.emacs.d/xclip.el")
