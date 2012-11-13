@@ -29,11 +29,12 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(delete-selection-mode nil)
+ '(f90-auto-keyword-case (quote upcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
- '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
+ '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/mylife.org" "/home/peter/Dropbox/orgmode/work.org")))
  '(org-agenda-ndays 7)
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
@@ -51,7 +52,8 @@
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode (quote right))
- '(transient-mark-mode 1))
+ '(transient-mark-mode 1)
+ '(truncate-partial-width-windows nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
