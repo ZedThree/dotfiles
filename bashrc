@@ -37,6 +37,7 @@ alias warwick='ssh -CX phrebb@enif.space.warwick.ac.uk'
 alias ipp='ssh -CX pamhi@gate.rzg.mpg.de'
 alias poisson='ssh -X -p 4242 peter@192.168.0.13'
 alias scppoisson='scp -P 4242 peter@192.168.0.13'
+alias helios='ssh phill@helios.iferc-csc.org'
 
 # nice for scp and stuff
 myhpcff='fsggst01@hpcff.fz-juelich.de' 
@@ -45,9 +46,11 @@ myipp='pamhi@gate.rzg.mpg.de'
 mycrpp='http://crppsvn.epfl.ch/repos/NEMORB'
 myculham='phill@fuslwe.fusion.culham.ukaea.org.uk'
 myhector='phill@login.hector.ac.uk'
+myhelios='phill@helios.iferc-csc.org'
 
 #directories
-orbdir=~/nemorb/prof_trunk
+#orbdir=~/nemorb/prof_trunk
+orbdir=~/nemorb/peter
 alias cdhome='cd ~'
 alias cdorb='cd ~/orb5/'
 alias cdnemo='cd $orbdir'
@@ -61,7 +64,8 @@ alias cddown='cd ~/Download/'
 alias cddoc='cd ~/Documents/Documentation/'
 alias cdpapers='cd ~/Documents/Papers/'
 alias cdwork='cd ~/Work/'
-alias cdthesis='cd ~/Work/thesis'
+alias cdthesis='cd ~/Work/thesis/'
+alias cddrop='cd ~/Dropbox/'
 
 # commands
 alias rmtemp='\rm *.*~'            # For removing temporary files
@@ -106,7 +110,8 @@ export PS1="\u:\w> "
 # look here for scripts
 export PATH=/home/peter/python/epd-7.0-2-rh5-x86_64/bin:$PATH:~/bin:/usr/local/hdf5/bin/:/usr/lib64/mpi/gcc/openmpi/bin/
 export PATH=$PATH:/home/peter/ParaView-3.12.0-Linux-x86_64/
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/include:/usr/local/lib/:/usr/local/lib64/:/usr/include:/usr/lib/:/usr/lib64/
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/include:/usr/local/lib/:/usr/local/lib64/:/usr/include:/usr/lib/:/usr/lib64/:/usr/lib64/mpi/gcc/openmpi/lib64/
+export PYTHONPATH=$PYTHONPATH:/home/peter/python/
 
 # ls family
 alias ll="ls -l --group-directories-first"
