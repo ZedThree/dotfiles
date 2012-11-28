@@ -34,7 +34,7 @@
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
- '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/mylife.org" "/home/peter/Dropbox/orgmode/work.org")))
+ '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
  '(org-agenda-ndays 7)
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
@@ -174,3 +174,4 @@ Frame must be declared as an environment."
 
 ;; let me copy and paste to X11 clipboard
 (load-file "~/.emacs.d/xclip.el")
+(put 'downcase-region 'disabled nil)
