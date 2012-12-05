@@ -3,6 +3,12 @@
 (add-to-list 'load-path "~/emacs_colours/")
 (add-to-list 'load-path "~/emacs_colours/color-theme-6.6.0/")
 
+;; Package manager stuff
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 ;; start in savehist mode
 (savehist-mode 1)
 
@@ -175,3 +181,9 @@ Frame must be declared as an environment."
 ;; let me copy and paste to X11 clipboard
 (load-file "~/.emacs.d/xclip.el")
 (put 'downcase-region 'disabled nil)
+
+;; Stuff for emacs GUI
+;; Set a smaller font size
+(set-face-attribute 'default nil :height 90)
+;; Remove useless tool-bar
+(tool-bar-mode -1)
