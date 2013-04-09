@@ -75,6 +75,14 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(ediff-current-diff-A ((((class color)) (:background "white" :foreground "blue"))))
+ '(ediff-current-diff-B ((((class color)) (:background "white" :foreground "magenta" :weight bold))))
+ '(ediff-current-diff-C ((((class color)) (:background "white" :foreground "red" :weight bold))))
+ '(ediff-even-diff-A ((((class color)) (:background "yellow" :foreground "white" :weight bold))))
+ '(ediff-even-diff-B ((((class color)) (:background "yellow" :foreground "magenta" :weight bold))))
+ '(ediff-even-diff-C ((((class color)) (:background "yellow" :foreground "red" :weight bold))))
+ '(ediff-fine-diff-B ((((class color)) (:background "magenta" :foreground "white"))))
+ '(ediff-fine-diff-C ((((class color)) (:background "red" :foreground "white" :weight bold))))
  '(linum ((t (:inherit (shadow default) :foreground "black")))))
 
 ;; Ignore case in tab-completing filenames
@@ -107,7 +115,7 @@
 )
 
 (defun tex-frame ()
-"Run pdflatex on current frame. 
+"Run pdflatex on current frame.
 Frame must be declared as an environment."
 (interactive)
 (let (beg)
@@ -131,7 +139,7 @@ Frame must be declared as an environment."
   (backward-char 1))
 
 (define-key minibuffer-local-map
-  [f3] (lambda () (interactive) 
+  [f3] (lambda () (interactive)
        (insert (buffer-name (current-buffer-not-mini)))))
 
 ;; Start auctex automatically.
