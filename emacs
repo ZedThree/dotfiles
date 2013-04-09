@@ -6,9 +6,25 @@
 ;; start in savehist mode
 (savehist-mode 1)
 
+;; Display line and column numbers on the status line
+(setq line-number-mode   t)
+(setq column-number-mode t)
+
+;; Always end a file with a newline
+(setq require-final-newline t)
+
+;; Ordinarily emacs jumps by half a page when scrolling - reduce this to 1 line
+(setq scroll-step 1)
+
+;; When saving files, set execute permission if #! is in first line.
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;; When saving files, delete any trailing whitespace.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; Set MajorMode preferences based on filenames
-(setq auto-mode-alist 
-      (append 
+(setq auto-mode-alist
+      (append
        '(("\\emacs\\'" . emacs-lisp-mode)
 	 ("\\.F90\\'"  . f90-mode)
 	 ("\\.f03\\'"  . f90-mode)
