@@ -167,8 +167,8 @@ Frame must be declared as an environment."
 
 ;; linum mode
 (require 'linum)
-(global-linum-mode)
-		
+(global-linum-mode t)
+
 (add-hook 'LaTeX-mode-hook
 	  (lambda()
 	    (LaTeX-add-environments
@@ -199,3 +199,14 @@ Frame must be declared as an environment."
 ;; let me copy and paste to X11 clipboard
 (load-file "~/.emacs.d/xclip.el")
 (put 'downcase-region 'disabled nil)
+
+;; A keyboard macro to cycle through windows in reverse
+;; Bound to C-x p
+(fset 'cycle-window-backwards
+   "\C-u-\C-xo")
+(global-set-key (kbd "C-x p") 'cycle-window-backwards)
+
+;; If two buffers with the same name are open, append enough of
+;; the path to make them unique
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'reverse)
