@@ -220,6 +220,24 @@ Frame must be declared as an environment."
 ;; the path to make them unique
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
+
+;; Use magit for projects under git
+(require 'magit)
+(global-set-key "\C-cm" 'magit-status)
+
+;; Always split vertically
+(setq split-height-threshold 1600)
+(setq split-width-threshold 160)
+
+;; Magit wants to delete its window - don't let it
+(defun magit-quit-window (&optional kill-buffer)
+  "Bury the buffer and delete its window. With a prefix argument, kill the
+buffer instead."
+  (interactive "P")
+  (bury-buffer kill-buffer))
+
+(put 'set-goal-column 'disabled nil)
+
 ;; Compile customisation
 (require 'cl)
 
