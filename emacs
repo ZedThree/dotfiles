@@ -69,10 +69,12 @@
  '(org-deadline-warning-days 14)
  '(org-default-notes-file "~/Dropbox/orgmode/notes.org")
  '(org-fast-tag-selection-single-key (quote expert))
+ '(org-log-done (quote time))
  '(org-remember-store-without-prompt t)
  '(org-remember-templates (quote ((116 "* TODO %?
   %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
  '(org-reverse-note-order t)
+ '(org-startup-folded nil)
  '(reb-re-syntax (quote string))
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
@@ -208,6 +210,8 @@ Frame must be declared as an environment."
 
 ;; let me copy and paste to X11 clipboard
 (load-file "~/.emacs.d/xclip.el")
+(setq x-select-enable-clipboard t)
+
 (put 'downcase-region 'disabled nil)
 
 ;; A keyboard macro to cycle through windows in reverse
