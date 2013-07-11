@@ -15,6 +15,10 @@
 (setq line-number-mode   t)
 (setq column-number-mode t)
 
+;; Turn off menu-bar and tool-bar
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
 ;; Always end a file with a newline
 (setq require-final-newline t)
 
@@ -72,7 +76,7 @@
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
- '(scroll-bar-mode (quote right))
+ '(scroll-bar-mode nil)
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
