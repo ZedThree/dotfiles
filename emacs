@@ -1,7 +1,12 @@
 ;; colour schemes
-;;(add-to-list 'load-path "/home/peter/emacs_colours/sellout-emacs-color-theme-solarized-26260c0/")
-(add-to-list 'load-path "~/emacs_colours/")
-(add-to-list 'load-path "~/emacs_colours/color-theme-6.6.0/")
+(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/Tools/emacs-color-theme-solarized")
+(require 'color-theme)
+(require 'color-theme-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-dark)))
 
 ;; start in savehist mode
 (savehist-mode 1)
