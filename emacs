@@ -1,3 +1,14 @@
+(add-to-list 'load-path "~/.emacs.d/f90-namelist-mode/")
+(require 'f90-namelist-mode)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+
+(require 'cl)
 ;; colour schemes
 (add-to-list 'load-path "~/.emacs.d/")
 ;; (add-to-list 'load-path "~/Tools/emacs-color-theme-solarized")
@@ -49,11 +60,12 @@
 ;; (defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(compilation-scroll-output (quote first-error))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(delete-selection-mode nil)
  '(f90-auto-keyword-case (quote upcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
@@ -75,6 +87,7 @@
  ;;  %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
  '(org-reverse-note-order t)
  '(org-startup-folded nil)
+ '(package-archives (quote (("marmalade" . "http://marmalade-repo.org/packages/") ("org" . "http://orgmode.org/elpa/") ("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.milkbox.net/packages/"))))
  '(reb-re-syntax (quote string))
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
@@ -83,11 +96,11 @@
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(linum ((t (:inherit (shadow default) :foreground "black")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;; Ignore case in tab-completing filenames
 (setq read-file-name-completion-ignore-case t)
@@ -200,7 +213,7 @@ Frame must be declared as an environment."
 	    (window-buffer (previous-window)) (window-buffer (next-window)))))
 
 ;; let me copy and paste to X11 clipboard
-(load-file "~/.emacs.d/xclip.el")
+;; (load-file "~/.emacs.d/xclip.el")
 (setq x-select-enable-clipboard t)
 
 (put 'downcase-region 'disabled nil)
@@ -217,7 +230,7 @@ Frame must be declared as an environment."
 (setq uniquify-buffer-name-style 'reverse)
 
 ;; Use magit for projects under git
-(require 'magit)
+;; (require 'magit)
 (global-set-key "\C-cm" 'magit-status)
 
 ;; Always split vertically
@@ -259,3 +272,6 @@ of FILE in the current directory, suitable for creation"
 				(file-name-directory mkfile) mkfile))))))
 
 (global-set-key (kbd "<f5>") 'recompile)
+
+;; Set default font
+(set-face-attribute 'default nil :font "DejaVu Sans Mono-9")
