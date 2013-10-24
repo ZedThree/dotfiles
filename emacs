@@ -1,12 +1,12 @@
 ;; colour schemes
 (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/Tools/emacs-color-theme-solarized")
-(require 'color-theme)
-(require 'color-theme-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-dark)))
+;; (add-to-list 'load-path "~/Tools/emacs-color-theme-solarized")
+;; (require 'color-theme)
+;; (require 'color-theme-solarized)
+;; (eval-after-load "color-theme"
+;;   '(progn
+;;      (color-theme-initialize)
+;;      (color-theme-solarized-dark)))
 
 ;; start in savehist mode
 (savehist-mode 1)
@@ -58,9 +58,9 @@
 (setq vc-follow-symlinks nil)
 
 ;; matlab-mode stuff
-(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
-(autoload 'matlab-shell "~/emacs.d/matlab.el" "Interactive Matlab mode." t)
-(defun my-matlab-mode-hook ()  (setq fill-column 90))
+;; (autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
+;; (autoload 'matlab-shell "~/emacs.d/matlab.el" "Interactive Matlab mode." t)
+;; (defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -74,7 +74,7 @@
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
- '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
+ ;; '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
  '(org-agenda-ndays 7)
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
@@ -85,8 +85,8 @@
  '(org-fast-tag-selection-single-key (quote expert))
  '(org-log-done (quote time))
  '(org-remember-store-without-prompt t)
- '(org-remember-templates (quote ((116 "* TODO %?
-  %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
+ ;; '(org-remember-templates (quote ((116 "* TODO %?
+ ;;  %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
  '(org-reverse-note-order t)
  '(org-startup-folded nil)
  '(reb-re-syntax (quote string))
