@@ -280,3 +280,6 @@ of FILE in the current directory, suitable for creation"
 				(file-name-directory mkfile) mkfile))))))
 
 (global-set-key (kbd "<f5>") 'recompile)
+
+;; Some nifty moving between windows
+(windmove-default-keybindings)
