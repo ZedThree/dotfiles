@@ -51,6 +51,20 @@
 	 ("\\.m\\'"    . matlab-mode))
        auto-mode-alist))
 
+;; Add doxygen comments to variable declarations in F90 mode
+(defun doxygen-comment-dwim (arg)
+  "Uses doxygen comment format for variable declarations. See comment-dwim for more information."
+  (interactive "*P")
+  (if (save-excursion (end-of-line)
+		      (search-backward "::" (line-beginning-position) t)) ; Only apply doxygen comments to variable declarations
+      (let ((comment-start "!< "))	 ; Change the comment style to doxygen format
+	(comment-dwim arg))		 ; Comment/uncomment the line
+    (comment-dwim arg)))
+
+(add-hook 'f90-mode-hook
+	  '(lambda ()
+	     (define-key f90-mode-map [remap comment-dwim] 'doxygen-comment-dwim)))
+
 ;; Follow symlinks
 (setq vc-follow-symlinks nil)
 
@@ -244,6 +258,13 @@ buffer instead."
   (interactive "P")
   (bury-buffer kill-buffer))
 
+;; Wrap at 72 columns when writing git log messages in magit
+(defun my-turn-on-auto-fill ()
+  (setq fill-column 72)
+  (turn-on-auto-fill))
+
+(add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill)
+
 (put 'set-goal-column 'disabled nil)
 
 ;; Compile customisation
@@ -275,3 +296,6 @@ of FILE in the current directory, suitable for creation"
 
 ;; Set default font
 (set-face-attribute 'default nil :font "DejaVu Sans Mono-9")
+
+;; Some nifty moving between windows
+(windmove-default-keybindings)
