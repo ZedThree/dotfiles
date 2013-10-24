@@ -12,12 +12,12 @@
 ;; colour schemes
 (add-to-list 'load-path "~/.emacs.d/")
 ;; (add-to-list 'load-path "~/Tools/emacs-color-theme-solarized")
-;; (require 'color-theme)
-;; (require 'color-theme-solarized)
-;; (eval-after-load "color-theme"
-;;   '(progn
-;;      (color-theme-initialize)
-;;      (color-theme-solarized-dark)))
+(require 'color-theme)
+(require 'color-theme-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-dark)))
 
 ;; start in savehist mode
 (savehist-mode 1)
