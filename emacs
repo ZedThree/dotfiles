@@ -245,6 +245,13 @@ buffer instead."
   (interactive "P")
   (bury-buffer kill-buffer))
 
+;; Wrap at 72 columns when writing git log messages in magit
+(defun my-turn-on-auto-fill ()
+  (setq fill-column 72)
+  (turn-on-auto-fill))
+
+(add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill)
+
 (put 'set-goal-column 'disabled nil)
 
 ;; Compile customisation
