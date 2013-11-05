@@ -1,7 +1,7 @@
 ;; colour schemes
-;;(add-to-list 'load-path "/home/peter/emacs_colours/sellout-emacs-color-theme-solarized-26260c0/")
-(add-to-list 'load-path "~/emacs_colours/")
-(add-to-list 'load-path "~/emacs_colours/color-theme-6.6.0/")
+(add-to-list 'load-path "/home/peter/emacs_colours/sellout-emacs-color-theme-solarized-26260c0/")
+;; (add-to-list 'load-path "~/emacs_colours/")
+;; (add-to-list 'load-path "~/emacs_colours/color-theme-6.6.0/")
 
 ;; Package manager stuff
 (require 'package)
@@ -30,10 +30,16 @@
 (defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(TeX-PDF-mode t)
+ '(TeX-source-correlate-method (quote synctex))
+ '(TeX-source-correlate-mode t)
+ '(TeX-source-correlate-start-server t)
+ '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n`pwd`/./%b"))))
+ '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
  '(delete-selection-mode nil)
  '(f90-auto-keyword-case (quote upcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
@@ -61,17 +67,17 @@
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(linum ((t (:inherit (shadow default) :foreground "black")))))
 
 ;; Ignore case in tab-completing filenames
 (setq read-file-name-completion-ignore-case t)
 
 ;; LaTeX stuff
-;; (setq compile-command "pdflatex *.tex")
+(setq compile-command "pdflatex *.tex")
 (eval-after-load "tex"'(TeX-add-style-hook "beamer" 'my-beamer-mode))
 (setq TeX-region "regionsje")
 (defun my-beamer-mode ()
