@@ -289,3 +289,6 @@ of FILE in the current directory, suitable for creation"
 
 ;; Shortcut for align-regexp
 (global-set-key "\M-#" 'align-regexp)
+
+;; Turn on iswitchb-mode
+(iswitchb-mode 1)
