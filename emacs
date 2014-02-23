@@ -291,3 +291,12 @@ of FILE in the current directory, suitable for creation"
 
 ;; Some nifty moving between windows
 (windmove-default-keybindings)
+
+;; Reload TAGS file automatically
+(setq tags-revert-without-query 1)
+
+;; Shortcut for align-regexp
+(global-set-key "\M-#" 'align-regexp)
+
+;; Turn on iswitchb-mode
+(iswitchb-mode 1)
