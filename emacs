@@ -71,10 +71,16 @@
 (defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(TeX-PDF-mode t)
+ '(TeX-source-correlate-method (quote synctex))
+ '(TeX-source-correlate-mode t)
+ '(TeX-source-correlate-start-server t)
+ '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n%b"))))
+ '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
  '(compilation-scroll-output (quote first-error))
  '(delete-selection-mode nil)
  '(f90-auto-keyword-case (quote downcase-word))
