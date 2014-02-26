@@ -79,7 +79,7 @@
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
- '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n%b"))))
+ '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b"))))
  '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
  '(compilation-scroll-output (quote first-error))
  '(delete-selection-mode nil)
