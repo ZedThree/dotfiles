@@ -299,3 +299,15 @@ of FILE in the current directory, suitable for creation"
 
 ;; Some nifty moving between windows
 (windmove-default-keybindings)
+
+;; If there were no compilation errors, delete the compilation window
+(setq compilation-exit-message-function
+        (lambda (status code msg)
+          ;; If M-x compile exists with a 0
+          (when (and (eq status 'exit) (zerop code))
+            ;; then bury the *compilation* buffer, so that C-x b doesn't go there
+  	  (bury-buffer "*compilation*")
+  	  ;; and return to whatever were looking at before
+  	  (replace-buffer-in-windows "*compilation*"))
+          ;; Always return the anticipated result of compilation-exit-message-function
+  	(cons msg code)))
