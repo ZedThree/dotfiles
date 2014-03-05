@@ -319,3 +319,7 @@ of FILE in the current directory, suitable for creation"
   	  (replace-buffer-in-windows "*compilation*"))
           ;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
+
+;; Make minibuffer history behave like bash history
+(define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
+(define-key minibuffer-local-map (kbd "<down>") 'next-complete-history-element)
