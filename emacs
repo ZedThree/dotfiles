@@ -194,6 +194,9 @@ Frame must be declared as an environment."
   (format "\\cref{%s}" label))
 (setq reftex-format-ref-function 'reftex-format-cref)
 
+;; This needs to be the last reftex command
+(reftex-reset-mode)
+
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 
