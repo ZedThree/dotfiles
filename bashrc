@@ -72,10 +72,10 @@ alias rmtemp='\rm *.*~'            # For removing temporary files
 alias mkdir='mkdir -p'             # Make parent directories as required
 alias editbash='emacs ~/.bashrc'
 alias bashmeup='source ~/.bashrc'
-alias wc="texcount.pl -v0"         # word count
+#alias wc="texcount.pl -v0"         # word count
 alias emacs='emacs -nw'            # make emacs start in terminal mode
-alias grep='grep -i --color=always'       # make grep case insensitive
-alias firefox='firefox &'	   # make firefox open in background
+# alias grep='grep -i --color=always'       # make grep case insensitive
+# alias firefox='firefox &'	   # make firefox open in background
 alias matlab='matlab -nodesktop -nosplash; stty echo' # open matlab in a terminal
 alias matlabo='matlab -desktop'			   # open matlab in a window
 alias freedicv='freeciv-gtk2 &'    # freeciv
@@ -272,5 +272,13 @@ alias cbssh="cbf ~/.ssh/id_rsa.pub"
 alias cbwd="pwd | cb"
 # Copy most recent command in bash history
 alias cbhs="cat $HISTFILE | tail -n 1 | cb"
+
+grep() {
+    if [[ -t 1 ]]; then
+	command grep -n -i --color=always "$@"
+    else
+	command grep -i "$@"
+    fi
+}
 
 #last line
