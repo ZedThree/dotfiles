@@ -10,7 +10,7 @@ alias startx='ssh-agent startx'
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
 shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND" 
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # pretty colours
 red='\e[0;31m'
@@ -40,7 +40,7 @@ alias scppoisson='scp -P 4242 peter@192.168.0.13'
 alias helios='ssh phill@helios.iferc-csc.org'
 
 # nice for scp and stuff
-myhpcff='fsggst01@hpcff.fz-juelich.de' 
+myhpcff='fsggst01@hpcff.fz-juelich.de'
 mywarwick='phrebb@holmes.space.warwick.ac.uk'
 myipp='pamhi@gate.rzg.mpg.de'
 mycrpp='http://crppsvn.epfl.ch/repos/NEMORB'
@@ -137,7 +137,7 @@ cd "$@" ; ls
 
 # Open a pdf in background
 # function readpdf()
-# { okular "$1" ; } 
+# { okular "$1" ; }
 
 # Coloured diff
 function coldiff ()
@@ -161,9 +161,9 @@ Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
    while getopts :it opt
    do
        case "$opt" in
-           i) case="-i " ;;
-           *) echo "$usage"; return;;
-           esac
+	   i) case="-i " ;;
+	   *) echo "$usage"; return;;
+	   esac
        done
    shift $(( $OPTIND - 1 ))
    if [ "$#" -lt 1 ]; then
@@ -183,8 +183,8 @@ function lowercase()
    for file ; do
        filename=${file##*/}
        case "$filename" in
-           */*) dirname==${file%/*} ;;
-           *) dirname=.;;
+	   */*) dirname==${file%/*} ;;
+	   *) dirname=.;;
 esac
        nf=$(echo $filename | tr A-Z a-z)
        newname="${dirname}/${nf}"
@@ -209,22 +209,22 @@ function swap()
 function extract()      # Handy Extract Program.
 {
      if [ -f $1 ] ; then
-         case $1 in
-             *.tar.bz2)   tar xvjf $1     ;;
-             *.tar.gz)    tar xvzf $1     ;;
-             *.bz2)       bunzip2 $1      ;;
-             *.rar)       unrar x $1      ;;
-             *.gz)        gunzip $1       ;;
-             *.tar)       tar xvf $1      ;;
-             *.tbz2)      tar xvjf $1     ;;
-             *.tgz)       tar xvzf $1     ;;
-             *.zip)       unzip $1        ;;
-             *.Z)         uncompress $1   ;;
-             *.7z)        7z x $1         ;;
-             *)           echo "'$1' cannot be extracted via >extract<" ;;
-         esac
+	 case $1 in
+	     *.tar.bz2)   tar xvjf $1     ;;
+	     *.tar.gz)    tar xvzf $1     ;;
+	     *.bz2)       bunzip2 $1      ;;
+	     *.rar)       unrar x $1      ;;
+	     *.gz)        gunzip $1       ;;
+	     *.tar)       tar xvf $1      ;;
+	     *.tbz2)      tar xvjf $1     ;;
+	     *.tgz)       tar xvzf $1     ;;
+	     *.zip)       unzip $1        ;;
+	     *.Z)         uncompress $1   ;;
+	     *.7z)        7z x $1         ;;
+	     *)           echo "'$1' cannot be extracted via >extract<" ;;
+	 esac
      else
-         echo "'$1' is not a valid file"
+	 echo "'$1' is not a valid file"
      fi
 }
 
