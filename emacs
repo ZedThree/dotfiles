@@ -81,6 +81,7 @@
  '(TeX-source-correlate-start-server t)
  '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b"))))
  '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
+ '(column-number-mode t)
  '(compilation-scroll-output (quote first-error))
  '(delete-selection-mode nil)
  '(f90-auto-keyword-case (quote downcase-word))
@@ -108,7 +109,8 @@
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
- '(transient-mark-mode 1)
+ '(show-paren-mode t)
+ '(tool-bar-mode nil)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -193,9 +195,6 @@ Frame must be declared as an environment."
 (defun reftex-format-cref (label def-fmt)
   (format "\\cref{%s}" label))
 (setq reftex-format-ref-function 'reftex-format-cref)
-
-;; This needs to be the last reftex command
-(reftex-reset-mode)
 
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -326,3 +325,30 @@ of FILE in the current directory, suitable for creation"
 ;; Make minibuffer history behave like bash history
 (define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
 (define-key minibuffer-local-map (kbd "<down>") 'next-complete-history-element)
+
+(defun inside-class-enum-p (pos)
+  "Checks if POS is within the braces of a C++ \"enum class\"."
+  (ignore-errors
+    (save-excursion
+      (goto-char pos)
+      (up-list -1)
+      (backward-sexp 1)
+      (looking-back "enum[ \t]+class[ \t]+[^}]+"))))
+
+(defun align-enum-class (langelem)
+  (if (inside-class-enum-p (c-langelem-pos langelem))
+      0
+    (c-lineup-topmost-intro-cont langelem)))
+
+(defun align-enum-class-closing-brace (langelem)
+  (if (inside-class-enum-p (c-langelem-pos langelem))
+      '-
+    '+))
+
+(defun fix-enum-class ()
+  "Setup `c++-mode' to better handle \"class enum\"."
+  (add-to-list 'c-offsets-alist '(topmost-intro-cont . align-enum-class))
+  (add-to-list 'c-offsets-alist
+               '(statement-cont . align-enum-class-closing-brace)))
+
+(add-hook 'c++-mode-hook 'fix-enum-class)
