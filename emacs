@@ -352,3 +352,6 @@ of FILE in the current directory, suitable for creation"
                '(statement-cont . align-enum-class-closing-brace)))
 
 (add-hook 'c++-mode-hook 'fix-enum-class)
+
+(add-hook 'c++-mode-hook 'ggtags-mode)
+
