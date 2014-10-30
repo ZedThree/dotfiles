@@ -355,3 +355,8 @@ of FILE in the current directory, suitable for creation"
 
 (add-hook 'c++-mode-hook 'ggtags-mode)
 
+;; Tramp stuff
+(require 'tramp)
+(add-to-list 'tramp-remote-path "/hwdisks/data/modules/pkg/git/1.8.4.1/bin/git")
+(add-to-list 'tramp-remote-path 'tramp-default-remote-path)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
