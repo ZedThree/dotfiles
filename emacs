@@ -37,7 +37,7 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; When saving files, delete any trailing whitespace.
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Set MajorMode preferences based on filenames
 (setq auto-mode-alist
@@ -63,7 +63,7 @@
 	     (define-key f90-mode-map [remap comment-dwim] 'doxygen-comment-dwim)))
 
 ;; Follow symlinks
-(setq vc-follow-symlinks nil)
+(setq vc-follow-symlinks t)
 
 ;; matlab-mode stuff
 (autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
