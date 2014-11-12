@@ -203,6 +203,15 @@ function extract()      # Handy Extract Program.
      fi
 }
 
+ngrep() {
+    if [[ -t 1 ]]; then
+	command grep -n -i --color=always "$@"
+    else
+	command grep -i "$@"
+    fi
+}
+alias grep='ngrep'
+
 # A shortcut function that simplifies usage of xclip.
 # - Accepts input from either stdin (pipe), or params.
 # From Nathan Broadbent: http://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
