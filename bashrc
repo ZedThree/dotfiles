@@ -13,25 +13,22 @@ shopt -s histappend
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # pretty colours
-red='\e[0;31m'
-RED='\e[1;31m'
-blue='\e[0;34m'
-BLUE='\e[1;34m'
-cyan='\e[0;36m'
-CYAN='\e[1;36m'
-NC='\e[0m'              # No Color
+BC_BLACK="\033[030m"
+BC_RED="\033[031m"
+BC_GREEN="\033[032m"
+BC_YELLOW="\033[033m"
+BC_BLUE="\033[034m"
+BC_PURPLE="\033[035m"
+BC_CYAN="\033[036m"
+BC_WHITE="\033[037m"
+BC_RESET="\033[039m"
+
+# prompt
+export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
 
 # computers
 alias fran='ssh francesca'
 alias hector='ssh -CX -l phill phase2b.hector.ac.uk'
-# alias gabor=ssh beid.space.warwick.ac.uk'
-# alias chara='ssh chara'
-# alias chris='ssh alioth.space.warwick.ac.uk'
-# alias oldjames='ssh albireo.space.warwick.ac.uk'
-# alias canopus='ssh canopus.space.warwick.ac.uk'
-# alias don='ssh alhena.space.warwick.ac.uk'
-# alias dave='ssh alya.space.warwick.ac.uk'
-# alias nicky='ssh enif.space.warwick.ac.uk'
 alias hpcff='ssh -CX fsggst01@hpcff.fz-juelich.de'
 alias warwick='ssh -CX phrebb@enif.space.warwick.ac.uk'
 alias ipp='ssh -CX pamhi@gate.rzg.mpg.de'
@@ -72,10 +69,6 @@ alias rmtemp='\rm *.*~'            # For removing temporary files
 alias mkdir='mkdir -p'             # Make parent directories as required
 alias editbash='emacs ~/.bashrc'
 alias bashmeup='source ~/.bashrc'
-#alias wc="texcount.pl -v0"         # word count
-alias emacs='emacs -nw'            # make emacs start in terminal mode
-# alias grep='grep -i --color=always'       # make grep case insensitive
-# alias firefox='firefox &'	   # make firefox open in background
 alias matlab='matlab -nodesktop -nosplash; stty echo' # open matlab in a terminal
 alias matlabo='matlab -desktop'			   # open matlab in a window
 alias freedicv='freeciv-gtk2 &'    # freeciv
@@ -88,24 +81,6 @@ alias mc='mv'			   # definitely didn't mean midnight commander. crazy bastards.
 
 #set default text editor
 export EDITOR=emacs
-
-# #always load these modules
-# if [[ ${HOSTNAME} == 'fe1' ]]; then
-# module load gnu/gnu64
-# module load gnu/ompi64
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/mkl/10.0.011/lib/em64t
-# #cd /gpfs/space/phrebb/
-# export LD_LIBRARY_PATH=/software/mathlib/gnu/lib:$LD_LIBRARY_PATH
-# elif [[ ${HOSTNAME} == 'fe2' ]]; then
-# module load matlab/r2009a
-# else
-# module load intel-fc
-# module load matlab-r2009a
-# module load mpich2-intel
-# fi
-
-# prompt
-export PS1="\u:\w> "
 
 # look here for scripts
 export PATH=/home/peter/python/epd-7.0-2-rh5-x86_64/bin:$PATH:~/bin:/usr/local/hdf5/bin/:/usr/lib64/mpi/gcc/openmpi/bin/
