@@ -1,8 +1,5 @@
 # .bashrc
 
-# Start X as a under ssh-agent
-alias startx='ssh-agent startx'
-
 #Make the history work for me
 #See http://www.ukuug.org/events/linux2003/papers/bash_tips/
 #See also, to analyze your history
@@ -26,53 +23,11 @@ BC_RESET="\033[039m"
 # prompt
 export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
 
-# computers
-alias fran='ssh francesca'
-alias hector='ssh -CX -l phill phase2b.hector.ac.uk'
-alias hpcff='ssh -CX fsggst01@hpcff.fz-juelich.de'
-alias warwick='ssh -CX phrebb@enif.space.warwick.ac.uk'
-alias ipp='ssh -CX pamhi@gate.rzg.mpg.de'
-alias poisson='ssh -X -p 4242 peter@192.168.0.13'
-alias scppoisson='scp -P 4242 peter@192.168.0.13'
-alias helios='ssh phill@helios.iferc-csc.org'
-
-# nice for scp and stuff
-myhpcff='fsggst01@hpcff.fz-juelich.de'
-mywarwick='phrebb@holmes.space.warwick.ac.uk'
-myipp='pamhi@gate.rzg.mpg.de'
-mycrpp='http://crppsvn.epfl.ch/repos/NEMORB'
-myculham='phill@fuslwe.fusion.culham.ukaea.org.uk'
-myhector='phill@login.hector.ac.uk'
-myhelios='phill@helios.iferc-csc.org'
-
-#directories
-#orbdir=~/nemorb/prof_trunk
-orbdir=~/nemorb/peter
-alias cdhome='cd ~'
-alias cdorb='cd ~/orb5/'
-alias cdnemo='cd $orbdir'
-alias cdruns='cd ${orbdir}/runs'
-alias cdsrc='cd ${orbdir}/src'
-alias cdmatlab=' cd ${orbdir}/matlab'
-alias cdtrunk='cd ${orbdir}/prof_trunk/'
-#alias ..='cd ..'
-alias cdbin='cd ~/bin/'
-alias cddown='cd ~/Download/'
-alias cddoc='cd ~/Documents/Documentation/'
-alias cdpapers='cd ~/Documents/Papers/'
-alias cdwork='cd ~/Work/'
-alias cdthesis='cd ~/Work/thesis/'
-alias cddrop='cd ~/Dropbox/'
-
 # commands
 alias rmtemp='\rm *.*~'            # For removing temporary files
 alias mkdir='mkdir -p'             # Make parent directories as required
 alias editbash='emacs ~/.bashrc'
 alias bashmeup='source ~/.bashrc'
-alias matlab='matlab -nodesktop -nosplash; stty echo' # open matlab in a terminal
-alias matlabo='matlab -desktop'			   # open matlab in a window
-alias freedicv='freeciv-gtk2 &'    # freeciv
-alias spotify='WINEDEBUG=fixme-all wine ~/Download/Spotify\ Installer.exe &'
 alias latest='ltt | head -1'
 alias sidediff='diff -ybB -W 180'  # diff, side-by-side, ignore whitespace, column-width 180
 
@@ -81,12 +36,6 @@ alias mc='mv'			   # definitely didn't mean midnight commander. crazy bastards.
 
 #set default text editor
 export EDITOR=emacs
-
-# look here for scripts
-export PATH=/home/peter/python/epd-7.0-2-rh5-x86_64/bin:$PATH:~/bin:/usr/local/hdf5/bin/:/usr/lib64/mpi/gcc/openmpi/bin/
-export PATH=$PATH:/home/peter/ParaView-3.12.0-Linux-x86_64/
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/include:/usr/local/lib/:/usr/local/lib64/:/usr/include:/usr/lib/:/usr/lib64/:/usr/lib64/mpi/gcc/openmpi/lib64/
-export PYTHONPATH=$PYTHONPATH:/home/peter/python/
 
 # ls family
 alias ll="ls -l --group-directories-first"
@@ -102,10 +51,6 @@ alias lr='ls -lhR'          # recursive ls
 alias ltt='ls -tc --color=tty' # sort by change time, most recent first
 alias tree='tree -Csu'     # nice alternative to 'recursive ls'
 
-cl() {
-cd "$@" ; ls
-}
-
 #---------------------------------------------------------------------#
 #                  File and string related functions                  #
 #---------------------------------------------------------------------#
@@ -117,69 +62,6 @@ cd "$@" ; ls
 # Coloured diff
 function coldiff ()
 { sidediff $@ | colordiff | less -R; }
-
-# Find a file with a pattern in name
-function ff()
-{ find . -type f -iname '*'$*'*' -ls ; }
-
-# Find a file with pattern $1 in name and Execute $2 on it
-function fe()
-{ find . -type f -iname '*'$1'*' -exec "${2:-file}" {} \; ; }
-
-# find pattern in a set of files and highlight them
-function fstr()
-{
-   OPTIND=1
-   local case=""
-   local usage="fstr: find string in files.
-Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
-   while getopts :it opt
-   do
-       case "$opt" in
-	   i) case="-i " ;;
-	   *) echo "$usage"; return;;
-	   esac
-       done
-   shift $(( $OPTIND - 1 ))
-   if [ "$#" -lt 1 ]; then
-       echo "$usage"
-       return;
-       fi
-   local SMSO=$(tput smso)
-   local RMSO=$(tput rmso)
-   find . -type f -name "${2:-*}" -print0 |
-xargs -0 grep -sn ${case} "$1" 2>&- | \
-   sed "s/$1/${SMSO}\0${RMSO}/gI" | more
-}
-
-# Change filenames to lowercase
-function lowercase()
-{
-   for file ; do
-       filename=${file##*/}
-       case "$filename" in
-	   */*) dirname==${file%/*} ;;
-	   *) dirname=.;;
-esac
-       nf=$(echo $filename | tr A-Z a-z)
-       newname="${dirname}/${nf}"
-if [ "$nf" != "$filename" ]; then
-   mv "$file" "$newname"
-   echo "lowercase: $file --> $newname"
-   else
-   echo "lowercase: $file not changed."
-   fi
-done
-}
-
-# Swap 2 filenames
-function swap()
-{
-   local TMPFILE=tmp.$$
-   mv "$1" $TMPFILE
-   mv "$2" "$1"
-   mv $TMPFILE "$2"
-}
 
 function extract()      # Handy Extract Program.
 {
