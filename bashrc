@@ -10,16 +10,21 @@ alias startx='ssh-agent startx'
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
 shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND" 
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # pretty colours
-red='\e[0;31m'
-RED='\e[1;31m'
-blue='\e[0;34m'
-BLUE='\e[1;34m'
-cyan='\e[0;36m'
-CYAN='\e[1;36m'
-NC='\e[0m'              # No Color
+BC_BLACK="\033[030m"
+BC_RED="\033[031m"
+BC_GREEN="\033[032m"
+BC_YELLOW="\033[033m"
+BC_BLUE="\033[034m"
+BC_PURPLE="\033[035m"
+BC_CYAN="\033[036m"
+BC_WHITE="\033[037m"
+BC_RESET="\033[039m"
+
+# prompt
+export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
 
 # computers
 alias fran='ssh francesca'
