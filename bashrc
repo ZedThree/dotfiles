@@ -20,8 +20,12 @@ BC_CYAN="\033[036m"
 BC_WHITE="\033[037m"
 BC_RESET="\033[039m"
 
+colours=($BC_BLACK $BC_RED $BC_GREEN $BC_YELLOW $BC_BLUE $BC_CYAN $BC_WHITE)
+hostindex=$(( $(hostname | od | tr -d ' \n' | head -c 10) % 7 ))
+hostcolour=${colours[$hostindex]}
+
 # prompt
-export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
 
 # commands
 alias rmtemp='\rm *.*~'            # For removing temporary files
