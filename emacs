@@ -4,11 +4,12 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;; (add-to-list 'package-archives-enable-alist
 ;;              '("melpa" "magit" "git-commit-mode" "git-rebase-mode"))
+(setq package-enable-at-startup nil)
 (package-initialize)
 
-;; colour schemes
-(add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/emacs_colours/emacs-color-theme-solarized")
+;; ;; colour schemes
+;; (add-to-list 'load-path "~/.emacs.d/")
+;; (add-to-list 'load-path "~/emacs_colours/emacs-color-theme-solarized")
 (require 'color-theme)
 (require 'color-theme-solarized)
 (eval-after-load "color-theme"
@@ -37,7 +38,7 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; When saving files, delete any trailing whitespace.
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Set MajorMode preferences based on filenames
 (setq auto-mode-alist
@@ -63,7 +64,7 @@
 	     (define-key f90-mode-map [remap comment-dwim] 'doxygen-comment-dwim)))
 
 ;; Follow symlinks
-(setq vc-follow-symlinks nil)
+(setq vc-follow-symlinks t)
 
 ;; matlab-mode stuff
 (autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
@@ -85,6 +86,7 @@
  '(delete-selection-mode nil)
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
@@ -108,6 +110,7 @@
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
+ '(tab-width 4)
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
@@ -175,27 +178,27 @@ Frame must be declared as an environment."
        (insert (buffer-name (current-buffer-not-mini)))))
 
 ;; Start auctex automatically.
-(load "auctex.el" nil t t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+;; (load "auctex.el" nil t t)
+;; (setq TeX-auto-save t)
+;; (setq TeX-parse-self t)
+;; (setq-default TeX-master nil)
 
-;; reftex
-(require 'tex-site)
-(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
-(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;; changes \ref to \cref when inserting a reference
-(defun reftex-format-cref (label def-fmt)
-  (format "\\cref{%s}" label))
-(setq reftex-format-ref-function 'reftex-format-cref)
+;; ;; reftex
+;; (require 'tex-site)
+;; (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+;; (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+;; (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+;; (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
+;; (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
+;; ;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; ;; changes \ref to \cref when inserting a reference
+;; (defun reftex-format-cref (label def-fmt)
+;;   (format "\\cref{%s}" label))
+;; (setq reftex-format-ref-function 'reftex-format-cref)
 
-;; This needs to be the last reftex command
-(reftex-reset-mode)
+;; ;; This needs to be the last reftex command
+;; (reftex-reset-mode)
 
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -232,8 +235,8 @@ Frame must be declared as an environment."
 	    (window-buffer (previous-window)) (window-buffer (next-window)))))
 
 ;; let me copy and paste to X11 clipboard
-(load-file "~/.emacs.d/xclip.el")
-(setq x-select-enable-clipboard t)
+;; (load-file "~/.emacs.d/xclip.el")
+;; (setq x-select-enable-clipboard t)
 
 (put 'downcase-region 'disabled nil)
 
@@ -326,3 +329,31 @@ of FILE in the current directory, suitable for creation"
 ;; Make minibuffer history behave like bash history
 (define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
 (define-key minibuffer-local-map (kbd "<down>") 'next-complete-history-element)
+
+(setq c-default-style "gnu")
+
+(setq-default indent-tabs-mode t)
+
+;; (setenv "PATH" (concat getenv "PATH") ":/phys/sfw/bin/")
+;; (setq exec-path (append exec-path '(":/phys/sfw/bin/")))
+
+;; Larger font
+(set-face-attribute 'default nil :height 120)
+
+;; Colour in shell?
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; doxymacs
+(add-to-list 'load-path "/hwdisks/home/ph781/share/emacs/site-lisp/")
+(add-hook 'c-mode-common-hook
+  (lambda ()
+    (require 'doxymacs)
+    (doxymacs-mode t)
+    (doxymacs-font-lock)))
