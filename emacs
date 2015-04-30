@@ -41,10 +41,12 @@
 ;; Set MajorMode preferences based on filenames
 (setq auto-mode-alist
       (append
-       '(("\\emacs\\'" . emacs-lisp-mode)
-	 ("\\.F90\\'"  . f90-mode)
-	 ("\\.f03\\'"  . f90-mode)
-	 ("\\.m\\'"    . matlab-mode))
+       '(("\\.cl\\'" . c-mode)
+         ("\\emacs\\'" . emacs-lisp-mode)
+         ("\\.F90\\'"  . f90-mode)
+         ("\\.f03\\'"  . f90-mode)
+         ("\\.m\\'"    . matlab-mode)
+         ("\\.inp\\'"  . conf-mode))
        auto-mode-alist))
 
 ;; Add doxygen comments to variable declarations in F90 mode
