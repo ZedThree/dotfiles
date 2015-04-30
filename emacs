@@ -82,8 +82,9 @@
  '(TeX-source-correlate-start-server t)
  '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b"))))
  '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
- '(compilation-scroll-output (quote first-error))
  '(delete-selection-mode nil)
+ '(ecb-layout-window-sizes (quote (("left10" (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086) (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029) (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
+ '(ecb-options-version "2.40")
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(inhibit-startup-screen t)
@@ -107,9 +108,8 @@
  '(reb-re-syntax (quote string))
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
- '(safe-local-variable-values (quote ((TeX-master . t) (TeX-master . "thesis"))))
+ '(safe-local-variable-values (quote ((setq ff-search-directories (quote ("." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*"))) (TeX-master . t) (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
- '(tab-width 4)
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
 (custom-set-faces
@@ -291,8 +291,18 @@ buffer instead."
 
 (put 'set-goal-column 'disabled nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
 (require 'cl)
+
+(setq
+ compilation-scroll-output 'first-error      ;; scroll until first error
+ compilation-skip-threshold 2                ;; skip warnings
+ compilation-read-command nil                ;; don't need enter
+ compilation-window-height 12                ;; keep it readable
+ compilation-auto-jump-to-first-error nil      ;; jump to first error auto
+ compilation-auto-jump-to-next-error nil       ;; jump to next error
+ )
 
 (defun* get-closest-pathname (&optional (file "Makefile"))
   "Determine the pathname of the first instance of FILE starting from the current directory towards root.
@@ -317,6 +327,8 @@ of FILE in the current directory, suitable for creation"
 				(file-name-directory mkfile) mkfile))))))
 
 (global-set-key (kbd "<f5>") 'recompile)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Some nifty moving between windows
 (windmove-default-keybindings)
@@ -346,12 +358,20 @@ of FILE in the current directory, suitable for creation"
 (define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
 (define-key minibuffer-local-map (kbd "<down>") 'next-complete-history-element)
 
-(setq c-default-style "gnu")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sensible indenting
 
-(setq-default indent-tabs-mode t)
+(setq-default c-default-style "k&r"
+              c-basic-offset 2
+              indent-tabs-mode nil
+              tab-width 4)
 
-;; (setenv "PATH" (concat getenv "PATH") ":/phys/sfw/bin/")
-;; (setq exec-path (append exec-path '(":/phys/sfw/bin/")))
+(defun cleanup-c-buffer ()
+  "Correctly indent, remove tabs and extra whitespace in C source code"
+  (interactive)
+  (c-indent-region (point-min) (point-max))
+  (untabify (point-min) (point-max))
+  (whitespace-cleanup-region (point-min) (point-max)))
 
 ;; Larger font
 (set-face-attribute 'default nil :height 120)
@@ -373,3 +393,39 @@ of FILE in the current directory, suitable for creation"
     (require 'doxymacs)
     (doxymacs-mode t)
     (doxymacs-font-lock)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Tramp stuff
+
+(require 'tramp)
+(add-to-list 'tramp-remote-path "/hwdisks/data/modules/pkg/git/1.8.4.1/bin/git")
+(add-to-list 'tramp-remote-path 'tramp-default-remote-path)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Switching between source and header files
+
+;; Open the other file in a different window
+(setq-default ff-always-in-other-window nil)
+;; Don't make new files
+(setq-default ff-always-try-to-create nil)
+;; Ignore #include lines
+(setq-default ff-ignore-include t)
+
+(eval-after-load 'cc-mode
+  '(progn
+     (define-key c-mode-map   "\C-cs" 'ff-find-other-file)
+     (define-key c++-mode-map "\C-cs" 'ff-find-other-file)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ECB stuff
+
+(require 'semantic/ia)
+(require 'semantic/bovine/gcc)
+(setq ecb-tip-of-the-day nil)
+(setq ecb-layout-name "left10")
+
+(global-semanticdb-minor-mode 1)
+
+(semantic-mode t)
+(global-ede-mode t)
