@@ -87,6 +87,7 @@
  '(ecb-options-version "2.40")
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
+ '(history-length 100)
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
@@ -177,6 +178,7 @@ Frame must be declared as an environment."
        (insert (buffer-name (current-buffer-not-mini)))))
 
 ;; Start auctex automatically.
+(require 'tex)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -192,8 +194,8 @@ Frame must be declared as an environment."
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 
 ;; changes \ref to \cref when inserting a reference
-;; (defun reftex-format-cref (label def-fmt)
-;;   (format "\\cref{%s}" label))
+(defun reftex-format-cref (label def-fmt)
+  (format "\\cref{%s}" label))
 
 ;; previous function no longer works?
 (eval-after-load
@@ -218,6 +220,7 @@ Frame must be declared as an environment."
 
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
 
 ;; linum mode
 (require 'linum)
@@ -270,6 +273,7 @@ Frame must be declared as an environment."
 ;; Use magit for projects under git
 (require 'magit)
 (global-set-key "\C-cm" 'magit-status)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; Always split vertically
 (setq split-height-threshold 1600)
@@ -373,8 +377,8 @@ of FILE in the current directory, suitable for creation"
   (untabify (point-min) (point-max))
   (whitespace-cleanup-region (point-min) (point-max)))
 
-;; Larger font
-(set-face-attribute 'default nil :height 120)
+;; Default font
+(set-frame-font "Inconsolata LGC-8" nil t)
 
 ;; Colour in shell?
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
