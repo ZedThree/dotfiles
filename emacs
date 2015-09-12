@@ -1,3 +1,4 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager stuff
 (require 'package)
 (add-to-list 'package-archives
@@ -7,13 +8,11 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-;; colour schemes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Colour schemes
 (require 'color-theme)
 (require 'color-theme-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-dark)))
+(load-theme 'solarized t)
 
 ;; start in savehist mode
 (savehist-mode 1)
