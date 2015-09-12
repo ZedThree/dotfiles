@@ -32,7 +32,7 @@ alias rmtemp='\rm *.*~'            # For removing temporary files
 alias mkdir='mkdir -p'             # Make parent directories as required
 alias editbash='emacs ~/.bashrc'
 alias bashmeup='source ~/.bashrc'
-alias latest='ltt | head -1'
+# alias latest='ltt | head -1'
 alias sidediff='diff -ybB -W 180'  # diff, side-by-side, ignore whitespace, column-width 180
 
 # typos
@@ -141,5 +141,7 @@ grep() {
 	command grep -i "$@"
     fi
 }
+# Show the last accessed file
+function latest() { ltt "$@" | head -1; }
 
 #last line
