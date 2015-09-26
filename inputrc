@@ -1,0 +1,5 @@
+set completion-ignore-case On
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+TAB: complete
+"\e[Z": menu-complete
