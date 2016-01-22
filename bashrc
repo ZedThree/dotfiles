@@ -39,7 +39,10 @@ alias sidediff='diff -ybB -W 180'  # diff, side-by-side, ignore whitespace, colu
 alias mc='mv'			   # definitely didn't mean midnight commander. crazy bastards.
 
 #set default text editor
-export EDITOR=emacs
+export EDITOR=emacsclient
+
+# Use the hwdisks modules
+export MODULEPATH=$MODULEPATH:/hwdisks/sfw64/modules/modulepath
 
 # ls family
 alias ll="ls -l --group-directories-first"
@@ -53,7 +56,6 @@ alias lt='ls -ltrh'         # sort by date, most recent last
 alias lm='ls -ahl |more'    # pipe through 'more'
 alias lr='ls -lhR'          # recursive ls
 alias ltt='ls -tc --color=tty' # sort by change time, most recent first
-alias tree='tree -Csu'     # nice alternative to 'recursive ls'
 
 #---------------------------------------------------------------------#
 #                  File and string related functions                  #
@@ -69,7 +71,7 @@ function coldiff ()
 
 function extract()      # Handy Extract Program.
 {
-     if [ -f $1 ] ; then
+     if [[ -f $1 ]] ; then
 	 case $1 in
 	     *.tar.bz2)   tar xvjf $1     ;;
 	     *.tar.gz)    tar xvzf $1     ;;
@@ -81,7 +83,7 @@ function extract()      # Handy Extract Program.
 	     *.tgz)       tar xvzf $1     ;;
 	     *.zip)       unzip $1        ;;
 	     *.Z)         uncompress $1   ;;
-	     *.7z)        7z x $1         ;;
+	     *.7z)        7za x $1        ;;
 	     *)           echo "'$1' cannot be extracted via >extract<" ;;
 	 esac
      else
@@ -134,14 +136,18 @@ alias cbwd="pwd | cb"
 # Copy most recent command in bash history
 alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
-grep() {
-    if [[ -t 1 ]]; then
-	command grep -n -i --color=always "$@"
-    else
-	command grep -i "$@"
-    fi
-}
+# grep() {
+#     if [[ -t 1 ]]; then
+# 	command grep -n -i --color=always "$@"
+#     else
+# 	command grep -i "$@"
+#     fi
+# }
+
 # Show the last accessed file
-function latest() { ltt "$@" | head -1; }
+function latest() {
+    lastfile=$(ltt "$@" | head -1);
+    echo "$@$lastfile";
+}
 
 #last line

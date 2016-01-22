@@ -66,8 +66,6 @@
 (setq vc-follow-symlinks t)
 
 ;; matlab-mode stuff
-(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Matlab mode." t)
-(autoload 'matlab-shell "~/emacs.d/matlab.el" "Interactive Matlab mode." t)
 (defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
@@ -80,35 +78,49 @@
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
  '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b"))))
- '(TeX-view-program-selection (quote ((output-pdf "Okular") ((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
+ '(TeX-view-program-selection
+   (quote
+    ((output-pdf "Okular")
+     ((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "Evince")
+     (output-html "xdg-open"))))
  '(delete-selection-mode nil)
- '(ecb-layout-window-sizes (quote (("left10" (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086) (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029) (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
+ '(desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop")))
+ '(desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
+ '(ecb-layout-window-sizes
+   (quote
+    (("left10"
+      (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086)
+      (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029)
+      (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
  '(ecb-options-version "2.40")
+ '(ede-project-directories
+   (quote
+    ("/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(history-length 100)
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
  '(mark-even-if-inactive t)
- '(org-agenda-files (quote ("/home/peter/Dropbox/orgmode/work.org" "/home/peter/Dropbox/orgmode/mylife.org")))
- '(org-agenda-ndays 7)
- '(org-agenda-show-all-dates t)
- '(org-agenda-skip-deadline-if-done t)
- '(org-agenda-skip-scheduled-if-done t)
- '(org-agenda-start-on-weekday nil)
- '(org-deadline-warning-days 14)
- '(org-default-notes-file "~/Dropbox/orgmode/notes.org")
- '(org-fast-tag-selection-single-key (quote expert))
- '(org-log-done (quote time))
- '(org-remember-store-without-prompt t)
- '(org-remember-templates (quote ((116 "* TODO %?
-  %u" "~/Dropbox/orgmode/mylife.org" "Tasks") (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))))
- '(org-reverse-note-order t)
- '(org-startup-folded nil)
+ '(org-agenda-files
+   (quote
+    ("~/Codes/BOUT-dev/todo.org" "~/Codes/NTM9/todo.org" "/home/peter/Documents/orgmode/work.org")))
  '(reb-re-syntax (quote string))
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
- '(safe-local-variable-values (quote ((setq ff-search-directories (quote ("." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*"))) (TeX-master . t) (TeX-master . "thesis"))))
+ '(safe-local-variable-values
+   (quote
+    ((ff-search-directories "." "~/Codes/IDAM/latest/source/*")
+     (ff-search-directories "." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")
+     (setq ff-search-directories
+           (quote
+            ("." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")))
+     (tab-width 8)
+     (TeX-master . t)
+     (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil))
@@ -123,7 +135,9 @@
 ;; Ignore case in tab-completing filenames
 (setq read-file-name-completion-ignore-case t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX stuff
+
 ;; (setq compile-command "pdflatex *.tex")
 (eval-after-load "tex"'(TeX-add-style-hook "beamer" 'my-beamer-mode))
 (setq TeX-region "regionsje")
@@ -191,9 +205,10 @@ Frame must be declared as an environment."
 (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
 ;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-default-bibliography '("/home/peter/Documents/library.bib"))
 
 ;; changes \ref to \cref when inserting a reference
-(defun reftex-format-cref (label def-fmt)
+(defun reftex-format-cref (label def-fmt style)
   (format "\\cref{%s}" label))
 
 ;; previous function no longer works?
@@ -207,15 +222,64 @@ Frame must be declared as an environment."
        'reftex-ref-style-alist
        '("Cleveref" "cleveref"
          (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D)))))
-      (add-to-list 'reftex-ref-style-default-list "Cleveref")
+      (reftex-ref-style-activate "Cleveref")
       (TeX-add-symbols
        '("cref" TeX-arg-ref)
        '("Cref" TeX-arg-ref)
        '("cpageref" TeX-arg-ref)
        '("Cpageref" TeX-arg-ref)))))
 
-;; (setq reftex-format-ref-function 'reftex-format-cref)
+(setq reftex-format-ref-function 'reftex-format-cref)
 (setq reftex-ref-macro-prompt nil)
+
+;; Beamer
+(add-hook 'LaTeX-mode-hook
+	  (lambda()
+	    (LaTeX-add-environments
+	     '("block" "title"))))
+(add-hook 'LaTeX-mode-hook
+	  (lambda()
+	    (LaTeX-add-environments
+	     '("varblock" "title" "width"))))
+
+;; Use relative path to find images
+(setq LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-mode
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(require 'remember)
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(define-key global-map [(control meta ?r)] 'remember)
+
+(setq org-agenda-files (quote ("/home/peter/Documents/orgmode/work.org"
+                               "/home/peter/Documents/orgmode/mylife.org"))
+      org-agenda-ndays 7
+      org-agenda-show-all-dates t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-start-on-weekday nil
+      org-deadline-warning-days 14
+      org-default-notes-file "~/Dropbox/orgmode/notes.org"
+      org-fast-tag-selection-single-key 'expert
+      org-log-done 'time
+      org-remember-store-without-prompt t
+      org-remember-templates (quote ((116 "* TODO %?
+  %u" "~/Dropbox/orgmode/mylife.org" "Tasks")
+                                     (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes")))
+      org-reverse-note-order t
+      org-startup-folded nil
+      org-clock-persist 'history
+      )
+
+(org-clock-persistence-insinuate)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Useful functions
 
 ;; Spell-checking on the fly
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -225,26 +289,9 @@ Frame must be declared as an environment."
 (require 'linum)
 (global-linum-mode t)
 
-(add-hook 'LaTeX-mode-hook
-	  (lambda()
-	    (LaTeX-add-environments
-	     '("block" "title"))))
-(add-hook 'LaTeX-mode-hook
-	  (lambda()
-	    (LaTeX-add-environments
-	     '("varblock" "title" "width"))))
+;; Let me use narrow-to-region
 (put 'narrow-to-region 'disabled nil)
 
-;; org-mode
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(require 'remember)
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map [(control meta ?r)] 'remember)
-
-;; Useful functions
 (defun current-buffer-not-mini ()
   "Return current-buffer if current buffer is not the *mini-buffer*
   else return buffer before minibuf is activated."
@@ -305,7 +352,7 @@ buffer instead."
  compilation-window-height 12                ;; keep it readable
  compilation-auto-jump-to-first-error nil      ;; jump to first error auto
  compilation-auto-jump-to-next-error nil       ;; jump to next error
- )
+)
 
 (defun* get-closest-pathname (&optional (file "Makefile"))
   "Determine the pathname of the first instance of FILE starting from the current directory towards root.
@@ -342,20 +389,17 @@ of FILE in the current directory, suitable for creation"
 ;; Shortcut for align-regexp
 (global-set-key "\M-#" 'align-regexp)
 
-;; Turn on iswitchb-mode
-(iswitchb-mode 1)
-
 ;; If there were no compilation errors, delete the compilation window
 (setq compilation-exit-message-function
-        (lambda (status code msg)
-          ;; If M-x compile exists with a 0
-          (when (and (eq status 'exit) (zerop code))
-            ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-  	  (bury-buffer "*compilation*")
-  	  ;; and return to whatever were looking at before
-  	  (replace-buffer-in-windows "*compilation*"))
-          ;; Always return the anticipated result of compilation-exit-message-function
-  	(cons msg code)))
+      (lambda (status code msg)
+        ;; If M-x compile exists with a 0
+        (when (and (eq status 'exit) (zerop code))
+          ;; then bury the *compilation* buffer, so that C-x b doesn't go there
+          (bury-buffer "*compilation*")
+          ;; and return to whatever were looking at before
+          (replace-buffer-in-windows "*compilation*"))
+        ;; Always return the anticipated result of compilation-exit-message-function
+        (cons msg code)))
 
 ;; Make minibuffer history behave like bash history
 (define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
@@ -368,6 +412,10 @@ of FILE in the current directory, suitable for creation"
               c-basic-offset 2
               indent-tabs-mode nil
               tab-width 4)
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (setq comment-start "//" comment-end "")))
 
 (defun cleanup-c-buffer ()
   "Correctly indent, remove tabs and extra whitespace in C source code"
@@ -432,3 +480,74 @@ of FILE in the current directory, suitable for creation"
 
 (semantic-mode t)
 (global-ede-mode t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlighting
+
+(define-key global-map "\C-xws" 'highlight-symbol)
+(define-key global-map "\M-p"   'highlight-symbol-prev)
+(define-key global-map "\M-n"   'highlight-symbol-next)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Desktop mode
+
+(desktop-save-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dictionary
+
+(setq ispell-dictionary "british")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Multiple cursors
+(require 'multiple-cursors)
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helm
+
+(require 'helm)
+(require 'helm-config)
+
+;; Make helm less ugly
+(setq helm-display-header-line nil)
+(set-face-attribute 'helm-source-header nil :height 1.0)
+
+;; Nice window size
+(setq helm-split-window-in-side-p t)
+(helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 30)
+(setq helm-autoresize-min-height 30)
+
+;; Keys for helm mode
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+;; Global keys for helm functions
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+
+;; Don't use helm for settings tags in org-mode
+(eval-after-load 'helm-mode
+  (progn
+    '(add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
+    '(add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))))
+
+;; (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; elpy
+
+(require 'elpy)
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
