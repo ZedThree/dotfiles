@@ -86,6 +86,10 @@
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
+ '(c-macro-prompt-flag t)
+ '(custom-safe-themes
+   (quote
+    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(delete-selection-mode nil)
  '(desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop")))
  '(desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
@@ -98,9 +102,11 @@
  '(ecb-options-version "2.40")
  '(ede-project-directories
    (quote
-    ("/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
+    ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
+ '(global-semantic-decoration-mode t)
+ '(global-semantic-highlight-func-mode t)
  '(history-length 100)
  '(inhibit-startup-screen t)
  '(linum-format "%d ")
@@ -123,7 +129,8 @@
      (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
  '(transient-mark-mode 1)
- '(truncate-partial-width-windows nil))
+ '(truncate-partial-width-windows nil)
+ '(which-function-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -354,27 +361,27 @@ buffer instead."
  compilation-auto-jump-to-next-error nil       ;; jump to next error
 )
 
-(defun* get-closest-pathname (&optional (file "Makefile"))
-  "Determine the pathname of the first instance of FILE starting from the current directory towards root.
-This may not do the correct thing in presence of links. If it does not find FILE, then it shall return the name
-of FILE in the current directory, suitable for creation"
-  (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
-    (expand-file-name file
-		      (loop
-			for d = default-directory then (expand-file-name ".." d)
-			if (file-exists-p (expand-file-name file d))
-			return d
-			if (equal d root)
-			return nil))))
+;; (defun* get-closest-pathname (&optional (file "Makefile"))
+;;   "Determine the pathname of the first instance of FILE starting from the current directory towards root.
+;; This may not do the correct thing in presence of links. If it does not find FILE, then it shall return the name
+;; of FILE in the current directory, suitable for creation"
+;;   (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
+;;     (expand-file-name file
+;; 		      (loop
+;; 			for d = default-directory then (expand-file-name ".." d)
+;; 			if (file-exists-p (expand-file-name file d))
+;; 			return d
+;; 			if (equal d root)
+;; 			return nil))))
 
-(require 'compile)
-(add-hook 'f90-mode-hook
-	  (lambda ()
-	    (set (make-local-variable 'compile-command)
-		 (let ((file (file-name-nondirectory buffer-file-name))
-		       (mkfile (get-closest-pathname)))
-		   (progn (format "cd %s; make -j4 -k -f %s"
-				(file-name-directory mkfile) mkfile))))))
+;; (require 'compile)
+;; (add-hook 'f90-mode-hook
+;; 	  (lambda ()
+;; 	    (set (make-local-variable 'compile-command)
+;; 		 (let ((file (file-name-nondirectory buffer-file-name))
+;; 		       (mkfile (get-closest-pathname)))
+;; 		   (progn (format "cd %s; make -j4 -k -f %s"
+;; 				(file-name-directory mkfile) mkfile))))))
 
 (global-set-key (kbd "<f5>") 'recompile)
 
@@ -477,6 +484,7 @@ of FILE in the current directory, suitable for creation"
 (setq ecb-layout-name "left10")
 
 (global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
 
 (semantic-mode t)
 (global-ede-mode t)
