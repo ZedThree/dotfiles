@@ -575,3 +575,9 @@ buffer instead."
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Syntax highlighting for modern C++ (11+)
+
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
