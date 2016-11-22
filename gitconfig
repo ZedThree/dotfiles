@@ -13,6 +13,7 @@
 	st = status
 	cm = commit
 	last = log -1 HEAD
+    hist = log --pretty=tformat:'%C(yellow)%h %Cblue%>(10)%ad %Cgreen%<(15)%aN%Cred%d %Creset%s' --date=short
 [apply]
 	whitespace = nowarn
 [core]
