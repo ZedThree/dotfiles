@@ -41,9 +41,6 @@ alias mc='mv'			   # definitely didn't mean midnight commander. crazy bastards.
 #set default text editor
 export EDITOR=emacsclient
 
-# Use the hwdisks modules
-export MODULEPATH=$MODULEPATH:/hwdisks/sfw64/modules/modulepath
-
 # ls family
 alias ll="ls -l --group-directories-first"
 alias ls='ls -hF --color'  # add colors for filetype recognition
@@ -148,6 +145,20 @@ alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 function latest() {
     lastfile=$(ltt "$@" | head -1);
     echo "$@$lastfile";
+}
+
+# Export environment variables to emacs
+# Use like export-emacs PATH LD_LIBRARY_PATH
+# From http://emacs.stackexchange.com/a/13232/2659
+function export-emacs {
+    if [ "$(emacsclient -e t)" != 't' ]; then
+        return 1
+    fi
+
+    for name in "${@}"; do
+        value=$(eval echo \"\$${name}\")
+        emacsclient -e "(setenv \"${name}\" \"${value}\")" >/dev/null
+    done
 }
 
 #last line
