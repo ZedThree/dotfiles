@@ -26,9 +26,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Colour schemes
-(require 'color-theme)
-(require 'color-theme-solarized)
-(load-theme 'solarized t)
+(require 'solarized-theme)
+(load-theme 'solarized-dark t)
 
 ;; start in savehist mode
 (savehist-mode 1)
