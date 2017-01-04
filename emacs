@@ -70,9 +70,6 @@
 ;; When saving files, set execute permission if #! is in first line.
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;; When saving files, delete any trailing whitespace.
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 ;; Set MajorMode preferences based on filenames
 (setq auto-mode-alist
       (append
@@ -84,25 +81,8 @@
          ("\\.inp\\'"  . conf-mode))
        auto-mode-alist))
 
-;; Add doxygen comments to variable declarations in F90 mode
-(defun doxygen-comment-dwim (arg)
-  "Uses doxygen comment format for variable declarations. See comment-dwim for more information."
-  (interactive "*P")
-  (if (save-excursion (end-of-line)
-		      (search-backward "::" (line-beginning-position) t)) ; Only apply doxygen comments to variable declarations
-      (let ((comment-start "!< "))	 ; Change the comment style to doxygen format
-	(comment-dwim arg))		 ; Comment/uncomment the line
-    (comment-dwim arg)))
-
-(add-hook 'f90-mode-hook
-	  '(lambda ()
-	     (define-key f90-mode-map [remap comment-dwim] 'doxygen-comment-dwim)))
-
 ;; Follow symlinks
 (setq vc-follow-symlinks t)
-
-;; matlab-mode stuff
-(defun my-matlab-mode-hook ()  (setq fill-column 90))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -246,7 +226,6 @@ Frame must be declared as an environment."
 (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
 (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
 (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-default-bibliography '("/home/peter/Documents/library.bib"))
 
@@ -347,10 +326,6 @@ Frame must be declared as an environment."
   (if (not (window-minibuffer-p)) (current-buffer)
       (if (eq (get-lru-window) (next-window))
 	    (window-buffer (previous-window)) (window-buffer (next-window)))))
-
-;; let me copy and paste to X11 clipboard
-;; (load-file "~/.emacs.d/xclip.el")
-;; (setq x-select-enable-clipboard t)
 
 (put 'downcase-region 'disabled nil)
 
@@ -472,14 +447,6 @@ Frame must be declared as an environment."
     (require 'doxymacs)
     (doxymacs-mode t)
     (doxymacs-font-lock)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Tramp stuff
-
-(require 'tramp)
-(add-to-list 'tramp-remote-path "/hwdisks/data/modules/pkg/git/1.8.4.1/bin/git")
-(add-to-list 'tramp-remote-path 'tramp-default-remote-path)
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Switching between source and header files
