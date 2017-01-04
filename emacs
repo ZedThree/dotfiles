@@ -153,6 +153,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(font-latex-sectioning-5-face ((t (:inherit variable-pitch :foreground "#708183" :weight bold))))
+ '(font-lock-negation-char-face ((t (:foreground "#dc322f" :weight normal))))
  '(linum ((t (:inherit (shadow default) :foreground "black")))))
 
 ;; Ignore case in tab-completing filenames
