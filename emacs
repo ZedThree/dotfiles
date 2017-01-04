@@ -1,6 +1,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager stuff
 (require 'package)
+
+;; Do some basic hardening of the package system
+;; See https://glyph.twistedmatrix.com/2015/11/editor-malware.html
+
 ;; Use https for packages
 (setq package-archives
       `(("gnu" . "https://elpa.gnu.org/packages/")
@@ -21,13 +25,30 @@
   (setq gnutls-verify-error t)
   (setq gnutls-trustfiles (list trustfile)))
 
+;; Initialise packages now
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; Make sure we have use-package installed
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
+;; Ensure all packages are installed
+(setq use-package-always-ensure t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Colour schemes
-(require 'solarized-theme)
-(load-theme 'solarized-dark t)
+(use-package solarized-theme
+  :config
+  (load-theme 'solarized-dark t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; start in savehist mode
 (savehist-mode 1)
@@ -270,35 +291,40 @@ Frame must be declared as an environment."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(require 'remember)
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map [(control meta ?r)] 'remember)
+(use-package org
+  :bind
+  (("\C-cl" . org-store-link)
+   ("\C-cc" . org-capture)
+   ("\C-ca" . org-agenda)
+   ("\C-cb" . org-iswitchb))
 
-(setq org-agenda-files (quote ("/home/peter/Documents/orgmode/work.org"
-                               "/home/peter/Documents/orgmode/mylife.org"))
-      org-agenda-ndays 7
-      org-agenda-show-all-dates t
-      org-agenda-skip-deadline-if-done t
-      org-agenda-skip-scheduled-if-done t
-      org-agenda-start-on-weekday nil
-      org-deadline-warning-days 14
-      org-default-notes-file "~/Dropbox/orgmode/notes.org"
-      org-fast-tag-selection-single-key 'expert
-      org-log-done 'time
-      org-remember-store-without-prompt t
-      org-remember-templates (quote ((116 "* TODO %?
+  :init
+  (require 'remember)
+  (add-hook 'remember-mode-hook 'org-remember-apply-template)
+  (define-key global-map [(control meta ?r)] 'remember)
+
+  (setq org-agenda-files (quote ("/home/peter/Documents/orgmode/work.org"
+                                 "/home/peter/Documents/orgmode/mylife.org"))
+        org-agenda-ndays 7
+        org-agenda-show-all-dates t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-start-on-weekday nil
+        org-deadline-warning-days 14
+        org-default-notes-file "~/Dropbox/orgmode/notes.org"
+        org-fast-tag-selection-single-key 'expert
+        org-log-done 'time
+        org-remember-store-without-prompt t
+        org-remember-templates (quote ((116 "* TODO %?
   %u" "~/Dropbox/orgmode/mylife.org" "Tasks")
-                                     (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes")))
-      org-reverse-note-order t
-      org-startup-folded nil
-      org-clock-persist 'history
-      )
+                                       (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes")))
+        org-reverse-note-order t
+        org-startup-folded nil
+        org-clock-persist 'history
+        )
 
-(org-clock-persistence-insinuate)
+  :config
+  (org-clock-persistence-insinuate))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
@@ -308,8 +334,9 @@ Frame must be declared as an environment."
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 
 ;; linum mode
-(require 'linum)
-(global-linum-mode t)
+(use-package linum
+  :init
+  (global-linum-mode t))
 
 ;; Let me use narrow-to-region
 (put 'narrow-to-region 'disabled nil)
@@ -335,70 +362,49 @@ Frame must be declared as an environment."
 
 ;; If two buffers with the same name are open, append enough of
 ;; the path to make them unique
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'reverse)
+(use-package uniquify
+  :ensure nil
+  :init
+  (setq uniquify-buffer-name-style 'reverse))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use magit for projects under git
-(require 'magit)
-(global-set-key "\C-cm" 'magit-status)
-(setq magit-last-seen-setup-instructions "1.4.0")
 
-;; Always split vertically
-(setq split-height-threshold 1600)
-(setq split-width-threshold 160)
+(use-package magit
+  :bind
+  (("\C-cm" . magit-status))
 
-;; Magit wants to delete its window - don't let it
-(defun magit-quit-window (&optional kill-buffer)
-  "Bury the buffer and delete its window. With a prefix argument, kill the
-buffer instead."
-  (interactive "P")
-  (bury-buffer kill-buffer))
+  :init
+  ;; Always split vertically
+  (setq split-height-threshold 1600)
+  (setq split-width-threshold 160)
 
-;; Wrap at 72 columns when writing git log messages in magit
-(defun my-turn-on-auto-fill ()
-  (setq fill-column 72)
-  (turn-on-auto-fill))
+  ;; Wrap at 72 columns when writing git log messages in magit
+  (defun my-turn-on-auto-fill ()
+    (setq fill-column 72)
+    (turn-on-auto-fill))
 
-(add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill)
+  (add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill)
 
-(put 'set-goal-column 'disabled nil)
+  (put 'set-goal-column 'disabled nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
-(require 'cl)
+(use-package cl
+  :ensure nil
 
-(setq
- compilation-scroll-output 'first-error      ;; scroll until first error
- compilation-skip-threshold 2                ;; skip warnings
- compilation-read-command nil                ;; don't need enter
- compilation-window-height 12                ;; keep it readable
- compilation-auto-jump-to-first-error nil      ;; jump to first error auto
- compilation-auto-jump-to-next-error nil       ;; jump to next error
-)
+  :bind
+  (("<f5>" . recompile))
 
-;; (defun* get-closest-pathname (&optional (file "Makefile"))
-;;   "Determine the pathname of the first instance of FILE starting from the current directory towards root.
-;; This may not do the correct thing in presence of links. If it does not find FILE, then it shall return the name
-;; of FILE in the current directory, suitable for creation"
-;;   (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
-;;     (expand-file-name file
-;; 		      (loop
-;; 			for d = default-directory then (expand-file-name ".." d)
-;; 			if (file-exists-p (expand-file-name file d))
-;; 			return d
-;; 			if (equal d root)
-;; 			return nil))))
-
-;; (require 'compile)
-;; (add-hook 'f90-mode-hook
-;; 	  (lambda ()
-;; 	    (set (make-local-variable 'compile-command)
-;; 		 (let ((file (file-name-nondirectory buffer-file-name))
-;; 		       (mkfile (get-closest-pathname)))
-;; 		   (progn (format "cd %s; make -j4 -k -f %s"
-;; 				(file-name-directory mkfile) mkfile))))))
-
-(global-set-key (kbd "<f5>") 'recompile)
+  :init
+  (setq
+   compilation-scroll-output 'first-error      ;; scroll until first error
+   compilation-skip-threshold 2                ;; skip warnings
+   compilation-read-command nil                ;; don't need enter
+   compilation-window-height 12                ;; keep it readable
+   compilation-auto-jump-to-first-error nil      ;; jump to first error auto
+   compilation-auto-jump-to-next-error nil       ;; jump to next error
+   ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -449,15 +455,15 @@ buffer instead."
 ;; Default font
 (set-frame-font "Inconsolata LGC-8" nil t)
 
-;; Colour in shell?
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(use-package ansi-color
+  :init
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region (point-min) (point-max))
+    (toggle-read-only))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  ;; Colour in shell?
+  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on))
 
 ;; doxymacs
 (add-to-list 'load-path "/home/peter/share/emacs/site-lisp/")
@@ -502,14 +508,16 @@ buffer instead."
 (global-semantic-idle-scheduler-mode 1)
 
 (semantic-mode t)
-(global-ede-mode t)
+;; (global-ede-mode nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlighting
 
-(define-key global-map "\C-xws" 'highlight-symbol)
-(define-key global-map "\M-p"   'highlight-symbol-prev)
-(define-key global-map "\M-n"   'highlight-symbol-next)
+(use-package highlight-symbol
+  :bind
+  (("\C-xws" . highlight-symbol)
+   ("\M-p" .   highlight-symbol-prev)
+   ("\M-n" .   highlight-symbol-next)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Desktop mode
@@ -523,60 +531,62 @@ buffer instead."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multiple cursors
-(require 'multiple-cursors)
-
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package multiple-cursors
+  :bind
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helm
 
-(require 'helm)
-(require 'helm-config)
+(use-package helm
+  :diminish helm-mode
+  :bind
+  (("C-x C-f" . helm-find-files)
+   ("M-x" . helm-M-x)
+   ("M-y" . helm-show-kill-ring)
+   ("C-x b" . helm-mini)
+   ("C-c h" . helm-command-prefix))
 
-;; Make helm less ugly
-(setq helm-display-header-line nil)
-(set-face-attribute 'helm-source-header nil :height 1.0)
+  :init
+  ;; Make helm less ugly
+  (setq helm-display-header-line nil)
 
-;; Nice window size
-(setq helm-split-window-in-side-p t)
-(helm-autoresize-mode 1)
-(setq helm-autoresize-max-height 30)
-(setq helm-autoresize-min-height 30)
+  ;; Nice window size
+  (setq helm-split-window-in-side-p t)
+  (setq helm-autoresize-max-height 30)
+  (setq helm-autoresize-min-height 30)
 
-;; Keys for helm mode
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+  :config
+  (require 'helm-config)
 
-;; Global keys for helm functions
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (set-face-attribute 'helm-source-header nil :height 1.0)
+  (helm-autoresize-mode 1)
 
-;; Don't use helm for settings tags in org-mode
-(eval-after-load 'helm-mode
-  (progn
-    '(add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
-    '(add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))))
+  ;; Keys for helm mode
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
-;; (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))
+  (helm-mode 1)
+
+  ;; Don't use helm for settings tags in org-mode
+  (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
+  (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elpy
 
-(require 'elpy)
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(use-package elpy
+  :config
+  (when (require 'flycheck nil t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Syntax highlighting for modern C++ (11+)
 
-(require 'modern-cpp-font-lock)
-(modern-c++-font-lock-global-mode t)
+(use-package modern-cpp-font-lock
+  :init (modern-c++-font-lock-global-mode t))
