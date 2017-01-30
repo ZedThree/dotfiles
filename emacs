@@ -558,3 +558,18 @@ Frame must be declared as an environment."
 
 (use-package modern-cpp-font-lock
   :init (modern-c++-font-lock-global-mode t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; rtags - C++ aware taggin
+
+(use-package rtags
+  :init
+  (setq rtags-path "/home/peter/Tools/rtags/install/bin")
+  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
+  (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
+
+  :config
+  (require 'rtags-helm)
+  (setq rtags-use-helm t)
+
+  (rtags-enable-standard-keybindings))
