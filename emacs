@@ -84,6 +84,32 @@
 ;; Follow symlinks
 (setq vc-follow-symlinks t)
 
+;; Some nifty moving between windows
+(windmove-default-keybindings)
+
+;; Reload TAGS file automatically
+(setq tags-revert-without-query 1)
+
+;; Shortcut for align-regexp
+(global-set-key "\M-#" 'align-regexp)
+
+;; Default font
+(set-frame-font "Inconsolata LGC-8" nil t)
+
+;; Desktop mode
+(desktop-save-mode 1)
+
+;; Dictionary
+(setq ispell-dictionary "british")
+
+;; Enable disabled functions
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Stuff from easy customisation
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -102,13 +128,15 @@
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
+ '(blink-matching-delay 0.3)
  '(c-macro-prompt-flag t)
  '(custom-safe-themes
    (quote
-    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(delete-selection-mode nil)
  '(desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop")))
  '(desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
+ '(doxymacs-doxygen-style "Qt")
  '(ecb-layout-window-sizes
    (quote
     (("left10"
@@ -119,6 +147,7 @@
  '(ede-project-directories
    (quote
     ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
+ '(elpy-rpc-python-command "python3")
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(global-semantic-decoration-mode t)
@@ -130,13 +159,20 @@
  '(org-agenda-files
    (quote
     ("~/Codes/BOUT-dev/todo.org" "~/Codes/NTM9/todo.org" "/home/peter/Documents/orgmode/work.org")))
+ '(package-selected-packages
+   (quote
+    (sphinx-mode smartparens smart-mode-line rtags clang-format use-package helm-projectile solarized-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow modern-cpp-font-lock yaml-mode swiper smartrep realgud rainbow-delimiters pylint projectile paredit pandoc-mode org-pandoc org-bullets org multiple-cursors mkdown matlab-mode material-theme magit-tramp magit-push-remote magit-gitflow magit-find-file list-utils highlight-symbol highlight-parentheses helm-gtags gitconfig gist ghc ggtags flymake-cppcheck flycheck-irony f elpy ein ecb desktop-registry cython-mode cmake-mode auctex adoc-mode ac-clang)))
  '(reb-re-syntax (quote string))
  '(remember-annotation-functions (quote (org-remember-annotation)))
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values
    (quote
-    ((ff-search-directories "." "~/Codes/IDAM/latest/source/*")
+    ((setq ff-search-directories
+           (quote
+            ("." "~/Codes/BOUT-dev-clean/include/*" "~/Codes/BOUT-dev-clean/src/*")))
+     (ff-search-directories "." "~/Codes/IDAM/latest/source/*")
      (ff-search-directories "." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")
+     (ff-search-directories "." "~/Codes/BOUT-dev-clean/include/*" "~/Codes/BOUT-dev-clean/src/*")
      (setq ff-search-directories
            (quote
             ("." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")))
@@ -144,6 +180,9 @@
      (TeX-master . t)
      (TeX-master . "thesis"))))
  '(scroll-bar-mode nil)
+ '(semantic-mode nil)
+ '(solarized-bold nil)
+ '(solarized-distinct-fringe-background t)
  '(transient-mark-mode 1)
  '(truncate-partial-width-windows nil)
  '(which-function-mode t))
@@ -318,9 +357,6 @@ Frame must be declared as an environment."
   :init
   (global-linum-mode t))
 
-;; Let me use narrow-to-region
-(put 'narrow-to-region 'disabled nil)
-
 (defun current-buffer-not-mini ()
   "Return current-buffer if current buffer is not the *mini-buffer*
   else return buffer before minibuf is activated."
@@ -328,7 +364,7 @@ Frame must be declared as an environment."
       (if (eq (get-lru-window) (next-window))
 	    (window-buffer (previous-window)) (window-buffer (next-window)))))
 
-(put 'downcase-region 'disabled nil)
+
 
 ;; A keyboard macro to cycle through windows in reverse
 ;; Bound to C-x p
@@ -360,9 +396,7 @@ Frame must be declared as an environment."
     (setq fill-column 72)
     (turn-on-auto-fill))
 
-  (add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill)
-
-  (put 'set-goal-column 'disabled nil))
+  (add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
@@ -380,30 +414,21 @@ Frame must be declared as an environment."
    compilation-window-height 12                ;; keep it readable
    compilation-auto-jump-to-first-error nil      ;; jump to first error auto
    compilation-auto-jump-to-next-error nil       ;; jump to next error
-   ))
+   )
+
+  ;; If there were no compilation errors, delete the compilation window
+  (setq compilation-exit-message-function
+        (lambda (status code msg)
+          ;; If M-x compile exists with a 0
+          (when (and (eq status 'exit) (zerop code))
+            ;; then bury the *compilation* buffer, so that C-x b doesn't go there
+            (bury-buffer "*compilation*")
+            ;; and return to whatever were looking at before
+            (replace-buffer-in-windows "*compilation*"))
+          ;; Always return the anticipated result of compilation-exit-message-function
+          (cons msg code))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Some nifty moving between windows
-(windmove-default-keybindings)
-
-;; Reload TAGS file automatically
-(setq tags-revert-without-query 1)
-
-;; Shortcut for align-regexp
-(global-set-key "\M-#" 'align-regexp)
-
-;; If there were no compilation errors, delete the compilation window
-(setq compilation-exit-message-function
-      (lambda (status code msg)
-        ;; If M-x compile exists with a 0
-        (when (and (eq status 'exit) (zerop code))
-          ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-          (bury-buffer "*compilation*")
-          ;; and return to whatever were looking at before
-          (replace-buffer-in-windows "*compilation*"))
-        ;; Always return the anticipated result of compilation-exit-message-function
-        (cons msg code)))
 
 ;; Make minibuffer history behave like bash history
 (define-key minibuffer-local-map (kbd "<up>") 'previous-complete-history-element)
@@ -427,9 +452,6 @@ Frame must be declared as an environment."
   (c-indent-region (point-min) (point-max))
   (untabify (point-min) (point-max))
   (whitespace-cleanup-region (point-min) (point-max)))
-
-;; Default font
-(set-frame-font "Inconsolata LGC-8" nil t)
 
 (use-package ansi-color
   :init
@@ -483,19 +505,9 @@ Frame must be declared as an environment."
 
 (use-package highlight-symbol
   :bind
-  (("\C-xws" . highlight-symbol)
-   ("\M-p" .   highlight-symbol-prev)
-   ("\M-n" .   highlight-symbol-next)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Desktop mode
-
-(desktop-save-mode 1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Dictionary
-
-(setq ispell-dictionary "british")
+  (("C-x w s" . highlight-symbol)
+   ("M-p" .   highlight-symbol-prev)
+   ("M-n" .   highlight-symbol-next)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multiple cursors
