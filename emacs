@@ -585,3 +585,12 @@ Frame must be declared as an environment."
   (setq rtags-use-helm t)
 
   (rtags-enable-standard-keybindings))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Projectile - project management
+
+(use-package projectile
+  :init
+  (projectile-mode t)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on))
