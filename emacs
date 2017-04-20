@@ -581,7 +581,7 @@ Frame must be declared as an environment."
   (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
 
   :config
-  (require 'rtags-helm)
+  (require 'helm-rtags)
   (setq rtags-use-helm t)
 
   (rtags-enable-standard-keybindings))
