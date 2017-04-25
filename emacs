@@ -147,7 +147,6 @@
  '(ede-project-directories
    (quote
     ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
- '(elpy-rpc-python-command "python3")
  '(f90-auto-keyword-case (quote downcase-word))
  '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
  '(global-semantic-decoration-mode t)
@@ -561,6 +560,9 @@ Frame must be declared as an environment."
 
 (use-package elpy
   :config
+  (setq elpy-rpc-python-command "python3")
+  (setq elpy-test-runner 'elpy-test-pytest-runner)
+
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
     (add-hook 'elpy-mode-hook 'flycheck-mode)))
