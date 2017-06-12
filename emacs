@@ -585,6 +585,7 @@ Frame must be declared as an environment."
   :config
   (require 'helm-rtags)
   (setq rtags-use-helm t)
+  (setq rtags-display-result-backend 'helm)
 
   (rtags-enable-standard-keybindings))
 
