@@ -400,34 +400,6 @@
 (setq doxymacs-doxygen-style "Qt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ECB stuff
-
-;; (use-package semantic
-
-;;   :config
-;;   (require 'semantic/ia)
-;;   (require 'semantic/bovine/gcc)
-;;   (setq ecb-tip-of-the-day nil)
-;;   (setq ecb-layout-name "left10")
-
-;;   (global-semanticdb-minor-mode 1)
-;;   (global-semantic-idle-scheduler-mode 1)
-;;   (global-semantic-decoration-mode t)
-;;   (global-semantic-highlight-func-mode t)
-;; (setq ecb-layout-window-sizes
-;;   (quote
-;;    (("left10"
-;;      (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086)
-;;      (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029)
-;;      (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
-;; (setq ecb-options-version "2.40")
-;;   (semantic-mode t))
-;; (global-ede-mode nil)
-;; (setq ede-project-directories
-;;       (quote
-;;        ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlighting
 
 (use-package highlight-symbol
