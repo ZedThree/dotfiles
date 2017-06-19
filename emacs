@@ -327,7 +327,7 @@
   (setq
    compilation-scroll-output 'first-error      ;; scroll until first error
    compilation-skip-threshold 2                ;; skip warnings
-   compilation-read-command nil                ;; don't need enter
+   compilation-read-command t                  ;; confirm compile command
    compilation-window-height 12                ;; keep it readable
    compilation-auto-jump-to-first-error nil      ;; jump to first error auto
    compilation-auto-jump-to-next-error nil       ;; jump to next error
