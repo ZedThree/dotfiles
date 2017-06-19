@@ -44,11 +44,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Colour schemes
+
 (use-package solarized-theme
   :config
-  (load-theme 'solarized-dark t))
+  (load-theme 'solarized-dark t)
+  (setq solarized-bold nil
+        solarized-distinct-fringe-background t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Generic customisation
 
 ;; start in savehist mode
 (savehist-mode 1)
@@ -57,9 +61,20 @@
 (setq line-number-mode   t)
 (setq column-number-mode t)
 
-;; Turn off menu-bar and tool-bar
+;; Turn off menu-bar, tool-bar, scroll-bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(scroll-bar-mode nil)
+
+;; Only define region when I tell you to
+(transient-mark-mode 1)
+
+;; Always display in mode line current function point is in (when
+;; available)
+(which-function-mode t)
+
+;; Respect the value of truncate-lines
+(setq truncate-partial-width-windows nil)
 
 ;; Always end a file with a newline
 (setq require-final-newline t)
@@ -155,14 +170,7 @@
    (quote
      (tab-width 8)
      (TeX-master . t)
-     (TeX-master . "thesis"))))
- '(scroll-bar-mode nil)
- '(semantic-mode nil)
- '(solarized-bold nil)
- '(solarized-distinct-fringe-background t)
- '(transient-mark-mode 1)
- '(truncate-partial-width-windows nil)
- '(which-function-mode t))
+     (TeX-master . "thesis")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
