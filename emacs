@@ -574,20 +574,46 @@ Frame must be declared as an environment."
   :init (modern-c++-font-lock-global-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Company mode for code completion
+
+(use-package company
+  :config
+  (global-company-mode))
+
+(use-package irony
+  :config
+  (use-package company-irony
+    :ensure t
+    :config
+    (push 'company-irony company-backends)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; rtags - C++ aware taggin
 
 (use-package rtags
   :init
   (setq rtags-path "/home/peter/Tools/rtags/install/bin")
-  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
-  (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
+
+  ;; Start rtags automatically for C/C++
+  (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
 
   :config
-  (require 'helm-rtags)
-  (setq rtags-use-helm t)
-  (setq rtags-display-result-backend 'helm)
+  (rtags-enable-standard-keybindings)
 
-  (rtags-enable-standard-keybindings))
+  ;; Get completions working with company mode
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (push 'company-rtags company-backends)
+
+  (use-package helm-rtags
+    :init
+    (setq rtags-use-helm t)
+
+    :config
+    (setq rtags-display-result-backend 'helm))
+
+  (use-package flycheck-rtags))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile - project management
