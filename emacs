@@ -153,15 +153,6 @@
  '(remember-handler-functions (quote (org-remember-handler)))
  '(safe-local-variable-values
    (quote
-    ((setq ff-search-directories
-           (quote
-            ("." "~/Codes/BOUT-dev-clean/include/*" "~/Codes/BOUT-dev-clean/src/*")))
-     (ff-search-directories "." "~/Codes/IDAM/latest/source/*")
-     (ff-search-directories "." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")
-     (ff-search-directories "." "~/Codes/BOUT-dev-clean/include/*" "~/Codes/BOUT-dev-clean/src/*")
-     (setq ff-search-directories
-           (quote
-            ("." "~/Codes/BOUT-dev/include/*" "~/Codes/BOUT-dev/src/*")))
      (tab-width 8)
      (TeX-master . t)
      (TeX-master . "thesis"))))
