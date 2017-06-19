@@ -471,21 +471,6 @@ Frame must be declared as an environment."
     (doxymacs-font-lock)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Switching between source and header files
-
-;; Open the other file in a different window
-(setq-default ff-always-in-other-window nil)
-;; Don't make new files
-(setq-default ff-always-try-to-create nil)
-;; Ignore #include lines
-(setq-default ff-ignore-include t)
-
-(eval-after-load 'cc-mode
-  '(progn
-     (define-key c-mode-map   "\C-cs" 'ff-find-other-file)
-     (define-key c++-mode-map "\C-cs" 'ff-find-other-file)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ECB stuff
 
 (require 'semantic/ia)
