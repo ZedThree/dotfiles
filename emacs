@@ -115,19 +115,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(TeX-source-correlate-method (quote synctex))
- '(TeX-source-correlate-mode t)
- '(TeX-source-correlate-start-server t)
- '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b"))))
- '(TeX-view-program-selection
-   (quote
-    ((output-pdf "Okular")
-     ((output-dvi style-pstricks)
-      "dvips and gv")
-     (output-dvi "xdvi")
-     (output-pdf "Evince")
-     (output-html "xdg-open"))))
  '(blink-matching-delay 0.3)
  '(c-macro-prompt-flag t)
  '(custom-safe-themes
@@ -200,111 +187,43 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX stuff
 
-;; (setq compile-command "pdflatex *.tex")
-(eval-after-load "tex"'(TeX-add-style-hook "beamer" 'my-beamer-mode))
-(setq TeX-region "regionsje")
-(defun my-beamer-mode ()
-  "My adds on for when in beamer."
+(use-package tex
+  :ensure auctex
 
-  ;; when in a Beamer file I want to use pdflatex.
-  ;; Thanks to Ralf Angeli for this.
-  (TeX-PDF-mode 1) ;turn on PDF mode.
+  :config
+  (setq TeX-auto-save t
+        TeX-parse-self t
+        TeX-PDF-mode t
+        ;; Synctex integration for playing nice with okular
+        TeX-source-correlate-method (quote synctex)
+        TeX-source-correlate-mode t
+        TeX-source-correlate-start-server t
+        TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b")))
+        TeX-view-program-selection
+        (quote
+         ((output-pdf "Okular")
+          ((output-dvi style-pstricks)
+           "dvips and gv")
+          (output-dvi "xdvi")
+          (output-pdf "Evince")
+          (output-html "xdg-open")))
+        ;; Use relative path to find images
+        LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative
+        ;; RefTeX stuff
+        reftex-plug-into-AUCTeX t
+        reftex-default-bibliography '("/home/peter/Documents/library.bib"))
 
-  ;; Tell reftex to treat \lecture and \frametitle as section commands
-  ;; so that C-c = gives you a list of frametitles and you can easily
-  ;; navigate around the list of frames.
-  ;; If you change reftex-section-level, reftex needs to be reset so that
-  ;; reftex-section-regexp is correctly remade.
-  (require 'reftex)
-  (set (make-local-variable 'reftex-section-levels)
-       '(("lecture" . 1) ("frametitle" . 2)))
-  (reftex-reset-mode)
+  (setq-default TeX-master nil)
 
-  ;; add some extra functions.
-  (define-key LaTeX-mode-map "\C-cf" 'beamer-template-frame)
-  (define-key LaTeX-mode-map "\C-\M-x" 'tex-frame)
-)
+  ;; Beamer
+  (add-hook 'LaTeX-mode-hook
+            (lambda()
+              (LaTeX-add-environments
+               '("block" "title")
+               '("varblock" "title" "width"))))
 
-(defun tex-frame ()
-  "Run pdflatex on current frame.
-Frame must be declared as an environment."
-  (interactive)
-  (let (beg)
-    (save-excursion
-      (search-backward "\\begin{frame}")
-      (setq beg (point))
-      (forward-char 1)
-      (LaTeX-find-matching-end)
-      (TeX-pin-region beg (point))
-      (letf (( (symbol-function 'TeX-command-query) (lambda (x) "LaTeX")))
-	    (TeX-command-region))
-      )
-    ))
-
-(defun beamer-template-frame ()
-  "Create a simple template and move point to after \\frametitle."
-  (interactive)
-  (LaTeX-environment-menu "frame")
-  (insert "\\frametitle{}")
-  (backward-char 1))
-
-(define-key minibuffer-local-map
-  [f3] (lambda () (interactive)
-       (insert (buffer-name (current-buffer-not-mini)))))
-
-;; Start auctex automatically.
-(require 'tex)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-
-;; reftex
-(require 'tex-site)
-(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
-(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-default-bibliography '("/home/peter/Documents/library.bib"))
-
-;; changes \ref to \cref when inserting a reference
-(defun reftex-format-cref (label def-fmt style)
-  (format "\\cref{%s}" label))
-
-;; previous function no longer works?
-(eval-after-load
-    "latex"
-  '(TeX-add-style-hook
-    "cleveref"
-    (lambda ()
-      (if (boundp 'reftex-ref-style-alist)
-      (add-to-list
-       'reftex-ref-style-alist
-       '("Cleveref" "cleveref"
-         (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D)))))
-      (reftex-ref-style-activate "Cleveref")
-      (TeX-add-symbols
-       '("cref" TeX-arg-ref)
-       '("Cref" TeX-arg-ref)
-       '("cpageref" TeX-arg-ref)
-       '("Cpageref" TeX-arg-ref)))))
-
-(setq reftex-format-ref-function 'reftex-format-cref)
-(setq reftex-ref-macro-prompt nil)
-
-;; Beamer
-(add-hook 'LaTeX-mode-hook
-	  (lambda()
-	    (LaTeX-add-environments
-	     '("block" "title"))))
-(add-hook 'LaTeX-mode-hook
-	  (lambda()
-	    (LaTeX-add-environments
-	     '("varblock" "title" "width"))))
-
-;; Use relative path to find images
-(setq LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
@@ -348,7 +267,6 @@ Frame must be declared as an environment."
 ;; Useful functions
 
 ;; Spell-checking on the fly
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 
 ;; linum mode
