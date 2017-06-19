@@ -221,7 +221,6 @@
                '("block" "title")
                '("varblock" "title" "width"))))
 
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -268,7 +267,11 @@
 ;; Useful functions
 
 ;; Spell-checking on the fly
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+(use-package flyspell
+  :defer t
+  :init
+  (add-hook 'markdown-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 ;; linum mode
 (use-package linum
