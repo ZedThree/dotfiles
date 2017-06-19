@@ -68,6 +68,11 @@
 
 ;; Only define region when I tell you to
 (transient-mark-mode 1)
+;; but do remember the region
+(setq mark-even-if-inactive t)
+
+;; Don't overwrite region
+(delete-selection-mode nil)
 
 ;; Always display in mode line current function point is in (when
 ;; available)
@@ -108,11 +113,15 @@
 ;; Shortcut for align-regexp
 (global-set-key "\M-#" 'align-regexp)
 
-;; Default font
-(set-frame-font "Inconsolata LGC-8" nil t)
+;; Default font, if available
+(cond
+ ((find-font (font-spec :name "Inconsolata LGC"))
+  (set-frame-font "Inconsolata LGC-8" nil t)))
 
 ;; Desktop mode
 (desktop-save-mode 1)
+(setq desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop"))
+      desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
 
 ;; Dictionary
 (setq ispell-dictionary "british")
@@ -122,6 +131,23 @@
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
+;; Faster highlighting of matching brackets
+(setq blink-matching-delay 0.3)
+
+;; Set how many items to remember for commands
+(setq history-length 100)
+
+;; No startup screen
+(setq inhibit-startup-screen t)
+
+;; Use lower-case keywords for Fortran
+(setq f90-auto-keyword-case #'downcase-word)
+
+;; File regexes to ignore when using grep
+(setq grep-find-ignored-files
+      (quote
+       (".#*" "*.hi" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.cp" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo" "*.html")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Stuff from easy customisation
 
@@ -130,44 +156,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(blink-matching-delay 0.3)
  '(c-macro-prompt-flag t)
  '(custom-safe-themes
    (quote
     ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(delete-selection-mode nil)
- '(desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop")))
- '(desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
- '(doxymacs-doxygen-style "Qt")
- '(ecb-layout-window-sizes
-   (quote
-    (("left10"
-      (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086)
-      (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029)
-      (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
- '(ecb-options-version "2.40")
- '(ede-project-directories
-   (quote
-    ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
- '(f90-auto-keyword-case (quote downcase-word))
- '(font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
- '(global-semantic-decoration-mode t)
- '(global-semantic-highlight-func-mode t)
- '(history-length 100)
- '(inhibit-startup-screen t)
- '(linum-format "%d ")
- '(mark-even-if-inactive t)
- '(org-agenda-files
-   (quote
-    ("~/Codes/BOUT-dev/todo.org" "~/Codes/NTM9/todo.org" "/home/peter/Documents/orgmode/work.org")))
  '(package-selected-packages
    (quote
-    (sphinx-mode smartparens smart-mode-line rtags clang-format use-package helm-projectile solarized-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow modern-cpp-font-lock yaml-mode swiper smartrep realgud rainbow-delimiters pylint projectile paredit pandoc-mode org-pandoc org-bullets org multiple-cursors mkdown matlab-mode material-theme magit-tramp magit-push-remote magit-gitflow magit-find-file list-utils highlight-symbol highlight-parentheses helm-gtags gitconfig gist ghc ggtags flymake-cppcheck flycheck-irony f elpy ein ecb desktop-registry cython-mode cmake-mode auctex adoc-mode ac-clang)))
- '(reb-re-syntax (quote string))
- '(remember-annotation-functions (quote (org-remember-annotation)))
- '(remember-handler-functions (quote (org-remember-handler)))
+    (company-rtags flycheck-rtags fortpy pydoc flymake-python-pyflakes helm-rtags sphinx-mode smartparens smart-mode-line rtags clang-format use-package helm-projectile solarized-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow modern-cpp-font-lock yaml-mode swiper smartrep realgud rainbow-delimiters pylint projectile paredit pandoc-mode org-pandoc org-bullets org multiple-cursors mkdown matlab-mode material-theme magit-tramp magit-push-remote magit-gitflow magit-find-file list-utils highlight-symbol highlight-parentheses helm-gtags gitconfig gist ghc ggtags flymake-cppcheck flycheck-irony f elpy ein ecb desktop-registry cython-mode cmake-mode auctex adoc-mode ac-clang)))
  '(safe-local-variable-values
    (quote
+    ((projectile-project-test-cmd . "/home/peter/Codes/BOUT-dev-clean/examples/test_suite")
+     (projectile-project-compilation-cmd . "make -k")
      (tab-width 8)
      (TeX-master . t)
      (TeX-master . "thesis")))))
@@ -210,7 +209,8 @@
         LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative
         ;; RefTeX stuff
         reftex-plug-into-AUCTeX t
-        reftex-default-bibliography '("/home/peter/Documents/library.bib"))
+        reftex-default-bibliography '("/home/peter/Documents/library.bib")
+        font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
 
   (setq-default TeX-master nil)
 
@@ -257,6 +257,8 @@
         org-reverse-note-order t
         org-startup-folded nil
         org-clock-persist 'history
+        remember-annotation-functions #'org-remember-annotation
+        remember-handler-functions #'org-remember-handler
         )
 
   :config
@@ -271,16 +273,21 @@
 ;; linum mode
 (use-package linum
   :init
-  (global-linum-mode t))
+  (global-linum-mode t)
+
+  :config
+  (setq linum-format "%d "))
 
 (defun current-buffer-not-mini ()
   "Return current-buffer if current buffer is not the *mini-buffer*
   else return buffer before minibuf is activated."
   (if (not (window-minibuffer-p)) (current-buffer)
       (if (eq (get-lru-window) (next-window))
-	    (window-buffer (previous-window)) (window-buffer (next-window)))))
+        (window-buffer (previous-window)) (window-buffer (next-window)))))
 
-
+(define-key minibuffer-local-map
+  [f3] (lambda () (interactive)
+       (insert (buffer-name (current-buffer-not-mini)))))
 
 ;; A keyboard macro to cycle through windows in reverse
 ;; Bound to C-x p
@@ -316,6 +323,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
+
 (use-package cl
   :ensure nil
 
@@ -386,20 +394,35 @@
     (require 'doxymacs)
     (doxymacs-mode t)
     (doxymacs-font-lock)))
+(setq doxymacs-doxygen-style "Qt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ECB stuff
 
-(require 'semantic/ia)
-(require 'semantic/bovine/gcc)
-(setq ecb-tip-of-the-day nil)
-(setq ecb-layout-name "left10")
+;; (use-package semantic
 
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
+;;   :config
+;;   (require 'semantic/ia)
+;;   (require 'semantic/bovine/gcc)
+;;   (setq ecb-tip-of-the-day nil)
+;;   (setq ecb-layout-name "left10")
 
-(semantic-mode t)
+;;   (global-semanticdb-minor-mode 1)
+;;   (global-semantic-idle-scheduler-mode 1)
+;;   (global-semantic-decoration-mode t)
+;;   (global-semantic-highlight-func-mode t)
+;; (setq ecb-layout-window-sizes
+;;   (quote
+;;    (("left10"
+;;      (ecb-methods-buffer-name 0.22878228782287824 . 0.7391304347826086)
+;;      (ecb-sources-buffer-name 0.11439114391143912 . 0.2463768115942029)
+;;      (ecb-history-buffer-name 0.11439114391143912 . 0.2463768115942029)))))
+;; (setq ecb-options-version "2.40")
+;;   (semantic-mode t))
 ;; (global-ede-mode nil)
+;; (setq ede-project-directories
+;;       (quote
+;;        ("/home/peter/Codes/my-tinyrenderer" "/home/peter/Learning/C/md5_map" "/home/peter/Learning/C/c_vs_haskell")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlighting
@@ -412,6 +435,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multiple cursors
+
 (use-package multiple-cursors
   :bind
   (("C-S-c C-S-c" . mc/edit-lines)
@@ -525,3 +549,15 @@
   (projectile-mode t)
   (setq projectile-completion-system 'helm)
   (helm-projectile-on))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Regex building
+
+(use-package re-builder
+  :config
+  (setq reb-re-syntax 'string))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Last thing, start server
+
+(add-hook 'after-init-hook 'server-start t)
