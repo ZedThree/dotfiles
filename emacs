@@ -533,6 +533,14 @@
   (setq reb-re-syntax 'string))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Markdown/pandoc
+
+(use-package markdown-mode)
+(use-package pandoc-mode
+  :config
+  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
 
 (add-hook 'after-init-hook 'server-start t)
