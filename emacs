@@ -121,7 +121,7 @@
 ;; Desktop mode
 (desktop-save-mode 1)
 (setq desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop"))
-      desktop-registry-registry (quote (("desktop" . "/home/peter/.emacs.d/desktop"))))
+      desktop-registry-registry (quote (("desktop" . "~/.emacs.d/desktop"))))
 
 ;; Dictionary
 (setq ispell-dictionary "british")
@@ -165,7 +165,7 @@
     (company-rtags flycheck-rtags fortpy pydoc flymake-python-pyflakes helm-rtags sphinx-mode smartparens smart-mode-line rtags clang-format use-package helm-projectile solarized-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow modern-cpp-font-lock yaml-mode swiper smartrep realgud rainbow-delimiters pylint projectile paredit pandoc-mode org-pandoc org-bullets org multiple-cursors mkdown matlab-mode material-theme magit-tramp magit-push-remote magit-gitflow magit-find-file list-utils highlight-symbol highlight-parentheses helm-gtags gitconfig gist ghc ggtags flymake-cppcheck flycheck-irony f elpy ein ecb desktop-registry cython-mode cmake-mode auctex adoc-mode ac-clang)))
  '(safe-local-variable-values
    (quote
-    ((projectile-project-test-cmd . "/home/peter/Codes/BOUT-dev-clean/examples/test_suite")
+    ((projectile-project-test-cmd . "~/Codes/BOUT-dev-clean/examples/test_suite")
      (projectile-project-compilation-cmd . "make -k")
      (tab-width 8)
      (TeX-master . t)
@@ -209,7 +209,7 @@
         LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative
         ;; RefTeX stuff
         reftex-plug-into-AUCTeX t
-        reftex-default-bibliography '("/home/peter/Documents/library.bib")
+        reftex-default-bibliography '("~/Documents/library.bib")
         font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
 
   (setq-default TeX-master nil)
@@ -238,8 +238,8 @@
   (add-hook 'remember-mode-hook 'org-remember-apply-template)
   (define-key global-map [(control meta ?r)] 'remember)
 
-  (setq org-agenda-files (quote ("/home/peter/Documents/orgmode/work.org"
-                                 "/home/peter/Documents/orgmode/mylife.org"))
+  (setq org-agenda-files (quote ("~/Documents/orgmode/work.org"
+                                 "~/Documents/orgmode/mylife.org"))
         org-agenda-ndays 7
         org-agenda-show-all-dates t
         org-agenda-skip-deadline-if-done t
@@ -391,7 +391,7 @@
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on))
 
 ;; doxymacs
-(add-to-list 'load-path "/home/peter/share/emacs/site-lisp/")
+(add-to-list 'load-path "~/share/emacs/site-lisp/")
 (add-hook 'c-mode-common-hook
   (lambda ()
     (require 'doxymacs)
@@ -493,7 +493,7 @@
 
 (use-package rtags
   :init
-  (setq rtags-path "/home/peter/Tools/rtags/install/bin")
+  (setq rtags-path "~/Tools/rtags/install/bin")
 
   ;; Start rtags automatically for C/C++
   (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
