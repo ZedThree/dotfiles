@@ -25,7 +25,17 @@ hostindex=$(( $(hostname | od | tr -d ' \n' | head -c 10) % 7 ))
 hostcolour=${colours[$hostindex]}
 
 # prompt
-export PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+case "$TERM" in
+        "dumb")
+                PS1="> "
+                ;;
+        xterm*|rxvt*|eterm*|screen*)
+                PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+                ;;
+        *)
+                PS="> "
+                ;;
+esac
 
 # commands
 alias rmtemp='\rm *.*~'            # For removing temporary files
