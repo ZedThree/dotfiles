@@ -427,16 +427,20 @@
    ("M-x" . helm-M-x)
    ("M-y" . helm-show-kill-ring)
    ("C-x b" . helm-mini)
-   ("C-c h" . helm-command-prefix))
+   ("C-c h" . helm-command-prefix)
+   :map helm-map
+   ([tab] . helm-execute-persistent-action)
+   ;; So tab also works in terminal
+   ("C-i" . helm-execute-persistent-action)
+   ("C-z" . helm-select-action))
 
   :init
   ;; Make helm less ugly
-  (setq helm-display-header-line nil)
-
-  ;; Nice window size
-  (setq helm-split-window-in-side-p t)
-  (setq helm-autoresize-max-height 30)
-  (setq helm-autoresize-min-height 30)
+  (setq helm-display-header-line nil
+        ;; Nice window size
+        helm-split-window-in-side-p t
+        helm-autoresize-max-height 30
+        helm-autoresize-min-height 30)
 
   :config
   (require 'helm-config)
@@ -444,16 +448,13 @@
   (set-face-attribute 'helm-source-header nil :height 1.0)
   (helm-autoresize-mode 1)
 
-  ;; Keys for helm mode
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
   (helm-mode 1)
 
   ;; Don't use helm for settings tags in org-mode
   (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
-  (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view)))
+  (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))
+
+  :diminish helm-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elpy
@@ -478,7 +479,9 @@
 
 (use-package company
   :config
-  (global-company-mode))
+  (global-company-mode)
+
+  :diminish company-mode)
 
 (use-package irony
   :config
@@ -520,9 +523,16 @@
 
 (use-package projectile
   :init
+  (use-package helm-projectile
+    :init
+    (setq projectile-completion-system 'helm))
+
+  :config
   (projectile-mode t)
-  (setq projectile-completion-system 'helm)
-  (helm-projectile-on))
+
+  (helm-projectile-on)
+
+  :diminish projectile-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Regex building
