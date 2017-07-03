@@ -203,33 +203,22 @@
         TeX-parse-self t
         TeX-PDF-mode t
         ;; Synctex integration for playing nice with okular
-        TeX-source-correlate-method (quote synctex)
+        TeX-source-correlate-method 'synctex
         TeX-source-correlate-mode t
         TeX-source-correlate-start-server t
-        TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n$(pwd)/./%b")))
-        TeX-view-program-selection
-        (quote
-         ((output-pdf "Okular")
-          ((output-dvi style-pstricks)
-           "dvips and gv")
-          (output-dvi "xdvi")
-          (output-pdf "Evince")
-          (output-html "xdg-open")))
+        TeX-view-program-selection '((output-pdf "Okular")
+                                     ((output-dvi style-pstricks) "dvips and gv")
+                                     (output-dvi "xdvi")
+                                     (output-pdf "Evince")
+                                     (output-html "xdg-open"))
         ;; Use relative path to find images
         LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative
         ;; RefTeX stuff
         reftex-plug-into-AUCTeX t
         reftex-default-bibliography '("~/Documents/library.bib")
-        font-latex-match-reference-keywords (quote (("Cref" "{") ("cref" "{") ("autoref" "{"))))
+        font-latex-match-reference-keywords (("Cref" "{") ("cref" "{") ("autoref" "{")))
 
   (setq-default TeX-master nil)
-
-  ;; Beamer
-  (add-hook 'LaTeX-mode-hook
-            (lambda()
-              (LaTeX-add-environments
-               '("block" "title")
-               '("varblock" "title" "width"))))
 
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
