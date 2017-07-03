@@ -139,8 +139,19 @@
 ;; No startup screen
 (setq inhibit-startup-screen t)
 
-;; Use lower-case keywords for Fortran
-(setq f90-auto-keyword-case #'downcase-word)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fortran
+
+(use-package f90
+  ;; built-in
+  :ensure nil
+  :mode (("\\.F90\\'"  . f90-mode)
+         ("\\.f03\\'"  . f90-mode))
+
+  :init
+  ;; Use lower-case keywords for Fortran
+  (setq f90-auto-keyword-case #'downcase-word))
+
 
 ;; File regexes to ignore when using grep
 (setq grep-find-ignored-files
