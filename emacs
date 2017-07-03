@@ -9,7 +9,7 @@
 
 ;; Use https for packages
 (setq package-archives
-      `(("gnu" . "https://elpa.gnu.org/packages/")
+      '(("gnu" . "https://elpa.gnu.org/packages/")
         ("melpa" . "https://melpa.org/packages/")))
 ;; Always check certificates!
 (setq tls-checktrust t)
@@ -124,8 +124,7 @@
 
 ;; Desktop mode
 (desktop-save-mode 1)
-(setq desktop-path (quote ("~/.emacs.d/" "~" "~/.emacs.d/desktop"))
-      desktop-registry-registry (quote (("desktop" . "~/.emacs.d/desktop"))))
+(setq desktop-path '("~/.emacs.d/desktop" "~" "~/.emacs.d/desktop"))
 
 ;; Dictionary
 (setq ispell-dictionary "british")
@@ -207,8 +206,8 @@
   (add-hook 'remember-mode-hook 'org-remember-apply-template)
   (define-key global-map [(control meta ?r)] 'remember)
 
-  (setq org-agenda-files (quote ("~/Documents/orgmode/work.org"
-                                 "~/Documents/orgmode/mylife.org"))
+  (setq org-agenda-files '("~/Documents/orgmode/work.org"
+                           "~/Documents/orgmode/mylife.org")
         org-agenda-ndays 7
         org-agenda-show-all-dates t
         org-agenda-skip-deadline-if-done t
@@ -219,15 +218,14 @@
         org-fast-tag-selection-single-key 'expert
         org-log-done 'time
         org-remember-store-without-prompt t
-        org-remember-templates (quote ((116 "* TODO %?
+        org-remember-templates '((116 "* TODO %?
   %u" "~/Dropbox/orgmode/mylife.org" "Tasks")
-                                       (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes")))
+                                 (110 "* %u %?" "~/Dropbox/orgmode/notes.org" "Notes"))
         org-reverse-note-order t
         org-startup-folded nil
         org-clock-persist 'history
         remember-annotation-functions #'org-remember-annotation
-        remember-handler-functions #'org-remember-handler
-        )
+        remember-handler-functions #'org-remember-handler)
 
   :config
   (org-clock-persistence-insinuate))
@@ -263,8 +261,7 @@
 
 ;; A keyboard macro to cycle through windows in reverse
 ;; Bound to C-x p
-(fset 'cycle-window-backwards
-   "\C-u-\C-xo")
+(fset 'cycle-window-backwards "\C-u-\C-xo")
 (global-set-key (kbd "C-x p") 'cycle-window-backwards)
 
 ;; If two buffers with the same name are open, append enough of
@@ -340,7 +337,8 @@
 
 (add-hook 'c-mode-hook
           (lambda ()
-            (setq comment-start "//" comment-end "")))
+            (setq comment-start "//" comment-end ""
+                  c-macro-prompt-flag t)))
 
 (defun cleanup-c-buffer ()
   "Correctly indent, remove tabs and extra whitespace in C source code"
