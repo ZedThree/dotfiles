@@ -21,21 +21,22 @@ BC_CYAN="\033[036m"
 BC_WHITE="\033[037m"
 BC_RESET="\033[039m"
 
+# Vaguely deterministic random colour for hostname in prompt
 colours=($BC_BLACK $BC_RED $BC_GREEN $BC_YELLOW $BC_BLUE $BC_CYAN $BC_WHITE)
 hostindex=$(( $(hostname | od | tr -d ' \n' | head -c 10) % 7 ))
 hostcolour=${colours[$hostindex]}
 
-# prompt
+# Fancy prompt, unless connected via TRAMP
 case "$TERM" in
-        "dumb")
-                PS1="> "
-                ;;
-        xterm*|rxvt*|eterm*|screen*)
-                PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
-                ;;
-        *)
-                PS="> "
-                ;;
+    "dumb")
+        PS1="> "
+        ;;
+    xterm*|rxvt*|eterm*|screen*)
+        PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+        ;;
+    *)
+        PS="> "
+        ;;
 esac
 
 # commands
@@ -43,11 +44,10 @@ alias rmtemp='\rm *.*~'            # For removing temporary files
 alias mkdir='mkdir -p'             # Make parent directories as required
 alias editbash='emacs ~/.bashrc'
 alias bashmeup='source ~/.bashrc'
-# alias latest='ltt | head -1'
 alias sidediff='diff -ybB -W 180'  # diff, side-by-side, ignore whitespace, column-width 180
 
 # typos
-alias mc='mv'			   # definitely didn't mean midnight commander. crazy bastards.
+alias mc='mv'              # definitely didn't mean midnight commander. crazy bastards.
 
 #set default text editor
 export EDITOR=emacsclient
@@ -69,10 +69,6 @@ alias ltt='ls -tc --color=tty' # sort by change time, most recent first
 #                  File and string related functions                  #
 #---------------------------------------------------------------------#
 
-# Open a pdf in background
-# function readpdf()
-# { okular "$1" ; }
-
 # Coloured diff
 function coldiff ()
 { sidediff $@ | colordiff | less -R; }
@@ -80,22 +76,22 @@ function coldiff ()
 function extract()      # Handy Extract Program.
 {
      if [[ -f $1 ]] ; then
-	 case $1 in
-	     *.tar.bz2)   tar xvjf $1     ;;
-	     *.tar.gz)    tar xvzf $1     ;;
-	     *.bz2)       bunzip2 $1      ;;
-	     *.rar)       unrar x $1      ;;
-	     *.gz)        gunzip $1       ;;
-	     *.tar)       tar xvf $1      ;;
-	     *.tbz2)      tar xvjf $1     ;;
-	     *.tgz)       tar xvzf $1     ;;
-	     *.zip)       unzip $1        ;;
-	     *.Z)         uncompress $1   ;;
-	     *.7z)        7za x $1        ;;
-	     *)           echo "'$1' cannot be extracted via >extract<" ;;
-	 esac
+     case $1 in
+         *.tar.bz2)   tar xvjf $1     ;;
+         *.tar.gz)    tar xvzf $1     ;;
+         *.bz2)       bunzip2 $1      ;;
+         *.rar)       unrar x $1      ;;
+         *.gz)        gunzip $1       ;;
+         *.tar)       tar xvf $1      ;;
+         *.tbz2)      tar xvjf $1     ;;
+         *.tgz)       tar xvzf $1     ;;
+         *.zip)       unzip $1        ;;
+         *.Z)         uncompress $1   ;;
+         *.7z)        7za x $1        ;;
+         *)           echo "'$1' cannot be extracted via >extract<" ;;
+     esac
      else
-	 echo "'$1' is not a valid file"
+     echo "'$1' is not a valid file"
      fi
 }
 
@@ -143,14 +139,6 @@ alias cbssh="cbf ~/.ssh/id_rsa.pub"
 alias cbwd="pwd | cb"
 # Copy most recent command in bash history
 alias cbhs="cat $HISTFILE | tail -n 1 | cb"
-
-# grep() {
-#     if [[ -t 1 ]]; then
-# 	command grep -n -i --color=always "$@"
-#     else
-# 	command grep -i "$@"
-#     fi
-# }
 
 # Show the last accessed file
 function latest() {
