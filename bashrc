@@ -1,3 +1,4 @@
+# -*- mode: shell-script -*-
 # .bashrc
 
 #Make the history work for me
