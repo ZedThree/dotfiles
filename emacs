@@ -1,3 +1,5 @@
+;; -*- mode: emacs-lisp; -*-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager stuff
 (require 'package)
@@ -94,9 +96,6 @@
 (setq auto-mode-alist
       (append
        '(("\\.cl\\'" . c-mode)
-         ("\\emacs\\'" . emacs-lisp-mode)
-         ("\\.F90\\'"  . f90-mode)
-         ("\\.f03\\'"  . f90-mode)
          ("\\.m\\'"    . matlab-mode)
          ("\\.inp\\'"  . conf-mode))
        auto-mode-alist))
