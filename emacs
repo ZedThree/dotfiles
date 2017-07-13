@@ -512,7 +512,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Markdown/pandoc
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :init
+  (add-hook 'markdown-mode-hook 'auto-fill-mode)
 (use-package pandoc-mode
   :config
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
