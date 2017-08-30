@@ -185,7 +185,7 @@
         ;; RefTeX stuff
         reftex-plug-into-AUCTeX t
         reftex-default-bibliography '("~/Documents/library.bib")
-        font-latex-match-reference-keywords (("Cref" "{") ("cref" "{") ("autoref" "{")))
+        font-latex-match-reference-keywords '(("Cref" "{") ("cref" "{") ("autoref" "{")))
 
   (setq-default TeX-master nil)
 
@@ -357,15 +357,6 @@
   ;; Colour in shell?
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on))
 
-;; doxymacs
-(add-to-list 'load-path "~/share/emacs/site-lisp/")
-(add-hook 'c-mode-common-hook
-  (lambda ()
-    (require 'doxymacs)
-    (doxymacs-mode t)
-    (doxymacs-font-lock)))
-(setq doxymacs-doxygen-style "Qt")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlighting
 
@@ -518,7 +509,7 @@
 
 (use-package markdown-mode
   :init
-  (add-hook 'markdown-mode-hook 'auto-fill-mode)
+  (add-hook 'markdown-mode-hook 'auto-fill-mode))
 (use-package pandoc-mode
   :config
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
