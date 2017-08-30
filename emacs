@@ -435,7 +435,8 @@
 ;; Syntax highlighting for modern C++ (11+)
 
 (use-package modern-cpp-font-lock
-  :init (modern-c++-font-lock-global-mode t))
+  :init (modern-c++-font-lock-global-mode t)
+  :diminish modern-c++-font-lock-global-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company mode for code completion
