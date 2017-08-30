@@ -515,6 +515,11 @@
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; YAML
+
+(use-package yaml-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
 
 (add-hook 'after-init-hook 'server-start t)
