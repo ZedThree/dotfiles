@@ -396,6 +396,7 @@
    ("M-y" . helm-show-kill-ring)
    ("C-x b" . helm-mini)
    ("C-c h" . helm-command-prefix)
+   ("M-$" . helm-flyspell-correct)
    :map helm-map
    ([tab] . helm-execute-persistent-action)
    ;; So tab also works in terminal
@@ -412,6 +413,9 @@
 
   :config
   (require 'helm-config)
+  (use-package helm-flyspell
+    :ensure t
+    :diminish)
 
   (set-face-attribute 'helm-source-header nil :height 1.0)
   (helm-autoresize-mode 1)
