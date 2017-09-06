@@ -241,6 +241,7 @@
   :defer t
   :init
   (add-hook 'markdown-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
 ;; linum mode
