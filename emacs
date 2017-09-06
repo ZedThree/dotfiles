@@ -143,6 +143,9 @@
 ;; No startup screen
 (setq inhibit-startup-screen t)
 
+;; Revert PDFs without asking
+(setq revert-without-query '(".*\\.pdf"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
