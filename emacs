@@ -513,6 +513,10 @@
 ;; Markdown/pandoc
 
 (use-package markdown-mode
+  :bind
+  (:map markdown-mode-map
+        ("M-<right>" . markdown-demote)
+        ("M-<left>" . markdown-promote))
   :init
   (add-hook 'markdown-mode-hook 'auto-fill-mode))
 (use-package pandoc-mode
