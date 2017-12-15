@@ -292,6 +292,8 @@
     (setq fill-column 72)
     (turn-on-auto-fill))
 
+  (global-magit-file-mode)
+
   (add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
