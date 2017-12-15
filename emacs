@@ -157,7 +157,11 @@
 
   :init
   ;; Use lower-case keywords for Fortran
-  (setq f90-auto-keyword-case #'downcase-word))
+  (setq f90-auto-keyword-case #'downcase-word
+        f90-if-indent 2
+        f90-do-indent 2
+        f90-type-indent 2
+        f90-indented-comment-re "!<?"))
 
 
 ;; File regexes to ignore when using grep
