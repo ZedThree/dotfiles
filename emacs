@@ -404,7 +404,8 @@
    ("C-i" . helm-execute-persistent-action)
    ("C-z" . helm-select-action))
 
-  :init
+  :config
+  (require 'helm-config)
   ;; Make helm less ugly
   (setq helm-display-header-line nil
         ;; Nice window size
@@ -412,8 +413,6 @@
         helm-autoresize-max-height 30
         helm-autoresize-min-height 30)
 
-  :config
-  (require 'helm-config)
   (use-package helm-flyspell
     :ensure t
     :diminish)
