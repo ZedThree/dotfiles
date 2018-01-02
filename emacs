@@ -291,14 +291,10 @@
   (setq split-height-threshold 1600)
   (setq split-width-threshold 160)
 
-  ;; Wrap at 72 columns when writing git log messages in magit
-  (defun my-turn-on-auto-fill ()
-    (setq fill-column 72)
-    (turn-on-auto-fill))
-
   (global-magit-file-mode)
 
-  (add-hook 'magit-log-edit-mode-hook 'my-turn-on-auto-fill))
+  (add-hook 'git-commit-setup-hook #'git-commit-turn-on-auto-fill)
+  (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
