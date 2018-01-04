@@ -444,6 +444,23 @@
   :diminish modern-c++-font-lock-global-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Auto-formatting for C++
+
+(use-package clang-format
+  :init
+  (defun clang-format-defun ()
+    (interactive)
+    (save-excursion
+      (mark-defun)
+      (clang-format-region (region-beginning) (region-end))
+      (deactivate-mark)))
+
+  :bind
+  (:map c++-mode-map
+        ("C-c c d" . clang-format-defun)
+        ("C-c c r" . clang-format-region)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company mode for code completion
 
 (use-package company
