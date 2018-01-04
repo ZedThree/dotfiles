@@ -493,7 +493,10 @@
   (setq rtags-autostart-diagnostics t)
   (rtags-diagnostics)
   (setq rtags-completions-enabled t)
-  (push 'company-rtags company-backends)
+
+  (use-package company-rtags
+    :init
+    (push 'company-rtags company-backends))
 
   (use-package helm-rtags
     :init
