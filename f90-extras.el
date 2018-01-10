@@ -17,7 +17,7 @@
 
     ;; Fix spaces around equals
     (f90-beginning-of-subprogram)
-    (while (re-search-forward "\\([^=*>/ ]\\)\\([=+*/-]\\)\\([^=* ]\\)" nil t)
+    (while (re-search-forward "\\([^=*>/ ]\\)\\([-=+*/<>]\\|[<>/=]=\\)\\([^=* ]\\)" nil t)
       (replace-match "\\1 \\2 \\3"))
 
     ;; Fix spaces after commas
