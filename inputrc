@@ -4,3 +4,11 @@ set completion-ignore-case On
 TAB: complete
 "\e[Z": menu-complete
 set blink-matching-paren on
+
+# Unbind M-n, M-p
+"\en": nop
+"\ep": nop
+
+# Previous default values for reference
+# "\en": non-incremental-forward-search-history
+# "\ep": non-incremental-reverse-search-history
