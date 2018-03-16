@@ -1,8 +1,12 @@
-set completion-ignore-case On
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+
+# Completions
+set completion-ignore-case On
 TAB: complete
+# The following is Shift-Tab
 "\e[Z": menu-complete
+
 set blink-matching-paren on
 
 # Unbind M-n, M-p
