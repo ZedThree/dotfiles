@@ -10,6 +10,9 @@ HISTSIZE=1000000
 shopt -s histappend
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
+# Require C-d twice to kill terminal
+export IGNOREEOF=1
+
 # pretty colours
 BC_BLACK="\033[030m"
 BC_RED="\033[031m"
