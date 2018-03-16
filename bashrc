@@ -3,12 +3,10 @@
 
 #Make the history work for me
 #See http://www.ukuug.org/events/linux2003/papers/bash_tips/
-#See also, to analyze your history
-#http://www.oreillynet.com/onlamp/blog/2007/01/whats_in_your_bash_history.html
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
 shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+PROMPT_COMMAND="history -a"
 
 # Require C-d twice to kill terminal
 export IGNOREEOF=1
@@ -29,13 +27,72 @@ colours=($BC_BLACK $BC_RED $BC_GREEN $BC_YELLOW $BC_BLUE $BC_CYAN $BC_WHITE)
 hostindex=$(( $(hostname | od | tr -d ' \n' | head -c 10) % 7 ))
 hostcolour=${colours[$hostindex]}
 
+# Get the walltime of the last command for the prompt
+# Stolen from https://stackoverflow.com/a/1862762/2043465
+# With improvements by Ed Higgins
+function timer_start() {
+  cmd_timer=${cmd_timer:-$SECONDS}
+}
+
+# Get the time since the timer was reset in xx:xx:xx format
+function get_time() {
+  timer_show=$(( $SECONDS - $cmd_timer ))
+  timer_sec=$(printf '%02d' $(($timer_show % 60)))
+  timer_min=$(printf '%02d' $((($timer_show / 60) % 60)))
+  timer_hr=$(printf '%02d' $(($timer_show / 3600)))
+  timer_str="$timer_hr:$timer_min:$timer_sec"
+  unset cmd_timer
+}
+
+trap 'timer_start' DEBUG
+
+# If no command was issued, reset the timer, else get the time after it finishes
+if [ "$PROMPT_COMMAND" == "" ]; then
+  unset timer_str
+else
+  PROMPT_COMMAND="$PROMPT_COMMAND; get_time"
+fi
+
+# Generate a string summarising the previous command's run
+prev_cmd_str() {
+    result=$?
+    unset time_this
+    if  [[ $result == 0 ]]; then # Command ran successfully
+      retcolor=${BC_GREEN}
+      result="😊"
+      time_this=1
+    elif [[ $result == 130 ]]; then # Command was killed by ^C
+      result="😯"
+      retcolor=${BC_BLUE}
+    elif [[ $result == 148 ]]; then # Command was suspended (^Z)
+      result="😔"
+      retcolor=${BC_CYAN}
+    else # Command died for another reason
+      result="😵:[$result]"
+      retcolor=${BC_RED}
+      time_this=1
+    fi
+
+    # If it's useful, get the time, else print "--:--:--"
+    if [ $time_this ]; then
+      timer_str=$timer_str
+    else
+      timer_str="--:--:--"
+    fi
+
+    # Set the summary string we want in PS1 and return it
+    ret_str="$retcolor[$result <$timer_str>]"
+    unset timer_str
+    echo -n -e "$ret_str"
+}
+
 # Fancy prompt, unless connected via TRAMP
 case "$TERM" in
     "dumb")
         PS1="> "
         ;;
     xterm*|rxvt*|eterm*|screen*)
-        PS1="\[$BC_BLACK\][\t]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+        PS1="\[$BC_BLACK\][\t]\$(prev_cmd_str)\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
         ;;
     *)
         PS="> "
