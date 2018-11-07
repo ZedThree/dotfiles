@@ -20,3 +20,9 @@
 	excludesfile = ~/.gitignore
 [gc]
 	auto = 1
+[github]
+	user = ZedThree
+[cola]
+	spellcheck = false
+[submodule]
+	recurse = true
