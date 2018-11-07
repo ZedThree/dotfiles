@@ -304,24 +304,23 @@
   :init
   (setq
    compilation-scroll-output 'first-error      ;; scroll until first error
-   compilation-skip-threshold 2                ;; skip warnings
+   compilation-skip-threshold 1                ;; skip things less than warnings
    compilation-read-command t                  ;; confirm compile command
    compilation-window-height 12                ;; keep it readable
    compilation-auto-jump-to-first-error nil      ;; jump to first error auto
    compilation-auto-jump-to-next-error nil       ;; jump to next error
    )
 
-  ;; If there were no compilation errors, delete the compilation window
-  (setq compilation-exit-message-function
-        (lambda (status code msg)
-          ;; If M-x compile exists with a 0
-          (when (and (eq status 'exit) (zerop code))
-            ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-            (bury-buffer "*compilation*")
-            ;; and return to whatever were looking at before
-            (replace-buffer-in-windows "*compilation*"))
-          ;; Always return the anticipated result of compilation-exit-message-function
-          (cons msg code))))
+  (setq compilation-finish-functions
+        (lambda (buf str)
+          (if (null (string-match ".*exited abnormally.*" str))
+              ;;no errors, make the compilation window go away in a few seconds
+              (progn
+                (run-at-time "0.4 sec" nil
+                             (lambda ()
+                               (select-window (get-buffer-window (get-buffer-create "*compilation*")))
+                               (switch-to-buffer nil)))
+                (message "No Compilation Errors!"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
