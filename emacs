@@ -11,6 +11,7 @@
 (setq package-archives
       '(("gnu" . "https://elpa.gnu.org/packages/")
         ("melpa" . "https://melpa.org/packages/")))
+
 ;; Always check certificates!
 (setq tls-checktrust t)
 ;; Set trust roots
@@ -120,7 +121,7 @@
 ;; Default font, if available
 (cond
  ((find-font (font-spec :name "Inconsolata LGC"))
-  (set-frame-font "Inconsolata LGC-8" nil t)))
+  (set-frame-font "Inconsolata LGC-10" nil t)))
 
 ;; Desktop mode
 (desktop-save-mode 1)
@@ -222,6 +223,7 @@
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
         org-agenda-start-on-weekday nil
+        org-blank-before-new-entry nil
         org-deadline-warning-days 14
         org-default-notes-file "~/Dropbox/orgmode/notes.org"
         org-fast-tag-selection-single-key 'expert
@@ -245,6 +247,7 @@
 ;; Spell-checking on the fly
 (use-package flyspell
   :defer t
+  :diminish
   :init
   (add-hook 'markdown-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
@@ -476,7 +479,6 @@
 
 (use-package rtags
   :init
-  (setq rtags-path "~/Tools/rtags/install/bin")
 
   ;; Start rtags automatically for C/C++
   (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
@@ -511,6 +513,10 @@
     :init
     (setq projectile-completion-system 'helm))
 
+  :bind
+  (:map projectile-mode-map
+        ("C-c p" . 'projectile-command-map))
+
   :config
   (projectile-mode t)
 
@@ -534,7 +540,9 @@
         ("M-<right>" . markdown-demote)
         ("M-<left>" . markdown-promote))
   :init
-  (add-hook 'markdown-mode-hook 'auto-fill-mode))
+  (add-hook 'markdown-mode-hook 'auto-fill-mode)
+  :diminish auto-fill-mode)
+
 (use-package pandoc-mode
   :config
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
@@ -543,6 +551,14 @@
 ;; YAML
 
 (use-package yaml-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Flycheck
+
+(use-package flycheck
+  :config
+  (setq flycheck-python-flake8-executable "python3"
+        flycheck-python-pylint-executable "python3"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
