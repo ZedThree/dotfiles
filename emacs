@@ -153,7 +153,9 @@
   ;; built-in
   :ensure nil
   :mode (("\\.F90\\'"  . f90-mode)
-         ("\\.f03\\'"  . f90-mode))
+         ("\\.f03\\'"  . f90-mode)
+         ("\\.fpp\\'"  . f90-mode)
+         )
 
   :init
   ;; Use lower-case keywords for Fortran
