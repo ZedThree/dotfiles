@@ -250,13 +250,7 @@
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode))
 
-;; linum mode
-(use-package linum
-  :init
-  (global-linum-mode t)
-
-  :config
-  (setq linum-format "%d "))
+(global-display-line-numbers-mode)
 
 (defun current-buffer-not-mini ()
   "Return current-buffer if current buffer is not the *mini-buffer*
