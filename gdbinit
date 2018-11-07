@@ -11,3 +11,6 @@ set disassembly-flavor intel
 set history filename ~/.gdb_history
 set history save
 set history size unlimited
+
+set build-id-verbose 0
+set print inferior-events off
