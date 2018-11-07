@@ -1,2 +1,6 @@
 *~
 *.mod
+.projectile
+GPATH
+GRTAGS
+GTAGS
