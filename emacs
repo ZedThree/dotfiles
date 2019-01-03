@@ -560,6 +560,12 @@
   (setq flycheck-python-flake8-executable "python3"
         flycheck-python-pylint-executable "python3"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Autorevert
+
+(use-package autorevert
+  :diminish auto-revert-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Search cppreference
 
 ;; Adapted from https://batsov.com/articles/2011/11/19/why-emacs/
