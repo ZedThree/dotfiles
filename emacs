@@ -559,6 +559,18 @@
   :config
   (setq flycheck-python-flake8-executable "python3"
         flycheck-python-pylint-executable "python3"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Search cppreference
+
+;; Adapted from https://batsov.com/articles/2011/11/19/why-emacs/
+(defun cppreference-query ()
+  "Searches cppreference"
+  (interactive)
+  (browse-url
+   (let ((search-term)
+   (concat
+    "https://en.cppreference.com/mwiki/index.php?title=Special:Search&search="
+    search-term)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
