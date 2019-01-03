@@ -451,8 +451,9 @@
     (save-excursion
       (mark-defun)
       (clang-format-region (region-beginning) (region-end))
-      (deactivate-mark)))
+      (deactivate-mark))))
 
+(use-package cc-mode
   :bind
   (:map c++-mode-map
         ("C-c c d" . clang-format-defun)
