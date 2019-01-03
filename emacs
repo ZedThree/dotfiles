@@ -520,6 +520,7 @@
 
   :config
   (projectile-mode t)
+  (setq projectile-globally-ignored-file-suffixes '(".o", ".mod" "~"))
 
   (helm-projectile-on)
 
