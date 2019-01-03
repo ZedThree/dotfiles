@@ -539,13 +539,16 @@
   (:map markdown-mode-map
         ("M-<right>" . markdown-demote)
         ("M-<left>" . markdown-promote))
-  :init
-  (add-hook 'markdown-mode-hook 'auto-fill-mode)
-  :diminish auto-fill-mode)
+  :hook
+  (markdown-mode . auto-fill-mode)
+
+  :diminish auto-fill-function)
 
 (use-package pandoc-mode
   :config
-  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings))
+  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+
+  :hook markdown-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; YAML
