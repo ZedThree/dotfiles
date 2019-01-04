@@ -580,10 +580,11 @@
   "Searches cppreference"
   (interactive)
   (browse-url
-   (let ((search-term)
    (concat
     "https://en.cppreference.com/mwiki/index.php?title=Special:Search&search="
-    search-term)))
+    (if mark-active
+        (buffer-substring (region-beginning) (region-end))
+      (read-string "cppreference: ")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
