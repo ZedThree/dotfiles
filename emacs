@@ -567,7 +567,11 @@
 (use-package flycheck
   :config
   (setq flycheck-python-flake8-executable "python3"
-        flycheck-python-pylint-executable "python3"))
+        flycheck-python-pylint-executable "python3"
+        flycheck-gfortran-args '("-Wall" "-Wextra" "-ffree-form"
+                                 "-ffree-line-length-none" "-fno-backslash"))
+  :hook (f90-mode . flycheck-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Autorevert
 
