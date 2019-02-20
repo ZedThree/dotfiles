@@ -587,6 +587,15 @@
       (read-string "cppreference: ")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Makefiles
+
+(use-package makefile
+  ;; built-in
+  :ensure nil
+  :mode (("Makefile\\.*"  . makefile-gmake-mode)
+         ("makefile\\.*"  . makefile-gmake-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
 
 (add-hook 'after-init-hook 'server-start t)
