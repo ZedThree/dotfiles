@@ -442,7 +442,8 @@
 
 (use-package modern-cpp-font-lock
   :init (modern-c++-font-lock-global-mode t)
-  :diminish modern-c++-font-lock-global-mode)
+  :diminish modern-c++-font-lock-global-mode
+  :diminish modern-c++-font-lock-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto-formatting for C++
