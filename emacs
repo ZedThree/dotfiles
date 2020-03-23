@@ -281,6 +281,20 @@
   :init
   (setq uniquify-buffer-name-style 'reverse))
 
+(setq split-width-threshold (- (window-width) 10))
+(setq split-height-threshold nil)
+
+(defun count-visible-buffers (&optional frame)
+  "Count how many buffers are currently being shown. Defaults to selected frame."
+  (length (mapcar #'window-buffer (window-list frame))))
+
+(defun do-not-split-more-than-two-windows (window &optional horizontal)
+  (if (and horizontal (> (count-visible-buffers) 1))
+      nil
+    t))
+
+(advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-windows)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use magit for projects under git
 
@@ -289,10 +303,6 @@
   (("\C-cm" . magit-status))
 
   :init
-  ;; Always split vertically
-  (setq split-height-threshold 1600)
-  (setq split-width-threshold 160)
-
   (global-magit-file-mode)
 
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-auto-fill)
