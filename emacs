@@ -149,6 +149,9 @@
 ;; Revert PDFs without asking
 (setq revert-without-query '(".*\\.pdf"))
 
+;; Confirm close
+(setq confirm-kill-emacs 'yes-or-no-p)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
