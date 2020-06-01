@@ -39,8 +39,8 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+
+(use-package diminish)
 
 ;; Ensure all packages are installed
 (setq use-package-always-ensure t)
