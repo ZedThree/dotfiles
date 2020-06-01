@@ -555,6 +555,9 @@
 
   (helm-projectile-on)
 
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+
   :diminish projectile-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
