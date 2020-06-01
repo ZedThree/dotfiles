@@ -444,9 +444,8 @@
 
   ;; Don't use helm for settings tags in org-mode
   (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
-  (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))
+  (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view)))
 
-  :diminish helm-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elpy
