@@ -163,6 +163,8 @@
          ("\\.fpp\\'"  . f90-mode)
          ("\\.pf\\'"  . f90-mode)
          )
+  :hook
+  (f90-mode . yas-minor-mode)
 
   :init
   ;; Use lower-case keywords for Fortran
