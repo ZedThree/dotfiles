@@ -174,6 +174,14 @@
         f90-type-indent 2
         f90-indented-comment-re "!<?"))
 
+(use-package lsp-mode
+  :init
+  :hook
+  (f90-mode . lsp)
+  :config
+  (use-package lsp-ui
+    :ensure f
+    :after flycheck))
 
 ;; File regexes to ignore when using grep
 (setq grep-find-ignored-files
