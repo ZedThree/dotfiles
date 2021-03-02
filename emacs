@@ -276,7 +276,8 @@
   :init
   (add-hook 'markdown-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode))
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'rst-mode-hook 'flyspell-mode))
 
 (global-display-line-numbers-mode)
 
