@@ -225,10 +225,10 @@
 
 (use-package org
   :bind
-  (("\C-cl" . org-store-link)
-   ("\C-cc" . org-capture)
-   ("\C-ca" . org-agenda)
-   ("\C-cb" . org-iswitchb))
+  (("\C-col" . org-store-link)
+   ("\C-coc" . org-capture)
+   ("\C-coa" . org-agenda)
+   ("\C-cob" . org-iswitchb))
 
   :init
   (require 'remember)
@@ -256,6 +256,12 @@
         org-clock-persist 'history
         remember-annotation-functions #'org-remember-annotation
         remember-handler-functions #'org-remember-handler)
+
+  ;; Don't let org-mode clobber windmove bindings
+  (define-key org-mode-map (kbd "S-<left>") nil)
+  (define-key org-mode-map (kbd "S-<right>") nil)
+  (define-key org-mode-map (kbd "S-<up>") nil)
+  (define-key org-mode-map (kbd "S-<down>") nil)
 
   :config
   (org-clock-persistence-insinuate))
