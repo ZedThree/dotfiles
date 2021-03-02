@@ -488,6 +488,8 @@
   :diminish modern-c++-font-lock-global-mode
   :diminish modern-c++-font-lock-mode)
 
+(use-package cmake-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto-formatting for C++
 
