@@ -181,10 +181,14 @@
   :init
   :hook
   (f90-mode . lsp)
+
   :config
-  (use-package lsp-ui
-    :ensure f
-    :after flycheck))
+  (setq read-process-output-max (* 1024 1024)
+        gc-cons-threshold 100000000
+        lsp-enable-xref t
+        lsp-headerline-breadcrumb-enable nil)
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  )
 
 ;; File regexes to ignore when using grep
 (setq grep-find-ignored-files
