@@ -152,6 +152,9 @@
 ;; Confirm close
 (setq confirm-kill-emacs 'yes-or-no-p)
 
+;; Don't keep duplicate entries in history
+(setq history-delete-duplicates t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
