@@ -259,16 +259,17 @@
         org-startup-folded nil
         org-clock-persist 'history
         remember-annotation-functions #'org-remember-annotation
-        remember-handler-functions #'org-remember-handler)
+        remember-handler-functions #'org-remember-handler
+        org-agenda-restore-windows-after-quit t)
 
+  :config
+  (org-clock-persistence-insinuate)
   ;; Don't let org-mode clobber windmove bindings
   (define-key org-mode-map (kbd "S-<left>") nil)
   (define-key org-mode-map (kbd "S-<right>") nil)
   (define-key org-mode-map (kbd "S-<up>") nil)
   (define-key org-mode-map (kbd "S-<down>") nil)
-
-  :config
-  (org-clock-persistence-insinuate))
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful functions
