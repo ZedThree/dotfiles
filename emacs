@@ -515,11 +515,22 @@
       (clang-format-region (region-beginning) (region-end))
       (deactivate-mark))))
 
+(defun gvol-dont-indent-outernamespace (langelem)
+    "Indent a namespace by 0 if it's the outer namespace and by + otherwise."
+    (save-excursion
+      ;; The beginning of the current namespace
+      (goto-char (cdr langelem))
+      (if (alist-get 'innamespace (c-guess-basic-syntax))
+          '+
+        0)))
+
 (use-package cc-mode
   :bind
   (:map c++-mode-map
         ("C-c c d" . clang-format-defun)
-        ("C-c c r" . clang-format-region)))
+        ("C-c c r" . clang-format-region))
+  :config
+  (c-set-offset 'innamespace #'gvol-dont-indent-outernamespace))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company mode for code completion
