@@ -107,7 +107,7 @@ export EDITOR=emacsclient
 
 # ls family
 alias ll="ls -l --group-directories-first"
-alias ls='ls -hF --color'  # add colors for filetype recognition
+alias ls='ls -hFv --color  --group-directories-first'  # add colors for filetype recognition
 alias la='ls -Alh'          # show hidden files
 alias lx='ls -lXBh'         # sort by extension
 alias lk='ls -lSrh'         # sort by size, biggest last
