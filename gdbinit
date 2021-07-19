@@ -14,3 +14,5 @@ set history size unlimited
 
 set build-id-verbose 0
 set print inferior-events off
+
+set max-completions 20
