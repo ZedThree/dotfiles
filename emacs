@@ -331,8 +331,6 @@
   (("\C-cm" . magit-status))
 
   :init
-  (global-magit-file-mode)
-
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell))
 
