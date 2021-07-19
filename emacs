@@ -599,13 +599,29 @@
   (setq reb-re-syntax 'string))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Markdown/pandoc
+;; Markdown/pandoc/restructuredtext
 
 (use-package markdown-mode
+  :init
+  (defun my-markdown-insert-columns (start end)
+    "Insert pandoc-style column markers"
+    (interactive
+     (if (use-region-p)
+         (list (region-beginning) (region-end))
+       (list (point) (point))))
+
+    (save-excursion
+      (goto-char end)
+      (insert "\n:::\n::: {.column align=center}\n\n:::\n::::::")
+      (goto-char start)
+      (insert ":::::: {.columns}\n::: {.column align=center}\n\n")
+      ))
+
   :bind
   (:map markdown-mode-map
         ("M-<right>" . markdown-demote)
-        ("M-<left>" . markdown-promote))
+        ("M-<left>" . markdown-promote)
+        ("C-c C-c /" . my-markdown-insert-columns))
   :hook
   (markdown-mode . auto-fill-mode)
 
@@ -616,6 +632,12 @@
   (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
 
   :hook markdown-mode)
+
+(use-package rst
+  :hook
+  (rst-mode . auto-fill-mode)
+
+  :diminish auto-fill-function)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; YAML
