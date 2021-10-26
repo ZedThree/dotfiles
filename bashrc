@@ -69,8 +69,14 @@ function set_prompt() {
         timer_str="--:--:--"
     fi
 
+    if [[ -n "${VIRTUAL_ENV:-}" ]]; then
+        virtualenv_bit='($(basename "${VIRTUAL_ENV}")) '
+    else
+        virtualenv_bit=
+    fi
+
     result_timer_show="$result_emoji <$timer_str>"
-    PS1="\[$BC_BLACK\][\t]\[$retcolor\][\$result_timer_show]\[$BC_RED\] \u@\[$hostcolour\]\h \[$BC_GREEN\]\w:\[$BC_RESET\] "
+    PS1="\[$BC_BLACK\][\t]\[$retcolor\][\$result_timer_show]\[$BC_RED\] \u@\[$hostcolour\]\h $virtualenv_bit\[$BC_GREEN\]\w:\[$BC_RESET\] "
     unset timer_str
     unset time_this
 
