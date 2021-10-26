@@ -124,6 +124,12 @@ alias lm='ls -ahl |more'    # pipe through 'more'
 alias lr='ls -lhR'          # recursive ls
 alias ltt='ls -tc --color=tty' # sort by change time, most recent first
 
+# Make ctest always show output on failure
+export CTEST_OUTPUT_ON_FAILURE=1
+
+# Silence BOUT++ tests
+export MPIRUN="mpiexec -np"
+
 #---------------------------------------------------------------------#
 #                  File and string related functions                  #
 #---------------------------------------------------------------------#
