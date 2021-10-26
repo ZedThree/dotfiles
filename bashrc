@@ -119,7 +119,7 @@ alias lx='ls -lXBh'         # sort by extension
 alias lk='ls -lSrh'         # sort by size, biggest last
 alias lc='ls -ltcrh'        # sort by and show change time, most recent last
 alias lu='ls -lturh'        # sort by and show access time, most recent last
-alias lt='ls -ltrh'         # sort by date, most recent last
+alias lt='\ls -ltrh --color'         # sort by date, most recent last
 alias lm='ls -ahl |more'    # pipe through 'more'
 alias lr='ls -lhR'          # recursive ls
 alias ltt='ls -tc --color=tty' # sort by change time, most recent first
