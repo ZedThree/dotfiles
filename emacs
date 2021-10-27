@@ -43,7 +43,7 @@
 ;; Ensure all packages are installed
 (setq use-package-always-ensure t)
 
-(setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+(setq auth-sources '("~/.authinfo.gpg"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Colour schemes
