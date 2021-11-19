@@ -1,0 +1,9 @@
+Host github.com
+    ForwardX11 no
+
+Host *
+    ServerAliveInterval 300
+    ServerAliveCountMax 2
+    AddKeysToAgent yes
+    ForwardAgent yes
+    ForwardX11 yes
