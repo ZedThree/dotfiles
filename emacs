@@ -173,7 +173,8 @@
         f90-if-indent 2
         f90-do-indent 2
         f90-type-indent 2
-        f90-indented-comment-re "!<?"))
+        f90-indented-comment-re "!<?"
+        f90-beginning-ampersand nil))
 
 (use-package lsp-mode
   :init
