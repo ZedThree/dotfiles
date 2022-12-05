@@ -153,6 +153,9 @@
 ;; Don't keep duplicate entries in history
 (setq history-delete-duplicates t)
 
+;; Don't make a noise
+(setq ring-bell-function 'ignore)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
