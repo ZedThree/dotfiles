@@ -165,6 +165,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
+(defun my-chain-flycheck-gfortran ()
+  (lsp-deferred)
+  (flycheck-add-next-checker 'lsp 'fortran-gfortran))
+
 (use-package f90
   ;; built-in
   :ensure nil
@@ -175,6 +179,7 @@
          )
   :hook
   (f90-mode . yas-minor-mode)
+  (f90-mode . my-chain-flycheck-gfortran)
 
   :init
   ;; Use lower-case keywords for Fortran
