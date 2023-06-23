@@ -201,6 +201,12 @@
         lsp-enable-xref t
         lsp-headerline-breadcrumb-enable nil)
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
+  (add-to-list 'lsp-clients-clangd-args "--compile-commands-dir=./build")
+
+  (use-package helm-lsp)
+  (use-package dap-mode)
+  (use-package yasnippet)
   )
 
 ;; File regexes to ignore when using grep
@@ -464,7 +470,6 @@
    ("C-z" . helm-select-action))
 
   :config
-  (require 'helm-config)
   ;; Make helm less ugly
   (setq helm-display-header-line nil
         ;; Nice window size
@@ -488,6 +493,10 @@
   (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
   (add-to-list 'helm-completing-read-handlers-alist '(org-tags-view))
   (add-to-list 'helm-completing-read-handlers-alist '(xref-find-references)))
+
+(use-package ffap
+  :config
+  (setq ffap-machine-p-known 'reject))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elpy
