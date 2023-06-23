@@ -178,7 +178,7 @@
          ("\\.pf\\'"  . f90-mode)
          )
   :hook
-  (f90-mode . yas-minor-mode)
+  (f90-mode . lsp)
   (f90-mode . my-chain-flycheck-gfortran)
 
   :init
@@ -193,7 +193,7 @@
 (use-package lsp-mode
   :init
   :hook
-  (f90-mode . lsp)
+  (lsp . yas-minor-mode)
 
   :config
   (setq read-process-output-max (* 1024 1024)
@@ -544,6 +544,10 @@
   (:map c++-mode-map
         ("C-c c d" . clang-format-defun)
         ("C-c c r" . clang-format-region))
+
+  :hook
+  (c++-mode . lsp)
+
   :config
   (c-set-offset 'innamespace #'gvol-dont-indent-outernamespace))
 
