@@ -560,43 +560,6 @@
 
   :diminish company-mode)
 
-(use-package irony
-  :config
-  (use-package company-irony
-    :ensure t
-    :config
-    (push 'company-irony company-backends)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; rtags - C++ aware taggin
-
-(use-package rtags
-  :init
-
-  ;; Start rtags automatically for C/C++
-  (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
-
-  :config
-  (rtags-enable-standard-keybindings)
-
-  ;; Get completions working with company mode
-  (setq rtags-autostart-diagnostics t)
-  (rtags-diagnostics)
-  (setq rtags-completions-enabled t)
-
-  (use-package company-rtags
-    :init
-    (push 'company-rtags company-backends))
-
-  (use-package helm-rtags
-    :init
-    (setq rtags-use-helm t)
-
-    :config
-    (setq rtags-display-result-backend 'helm))
-
-  (use-package flycheck-rtags))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile - project management
 
