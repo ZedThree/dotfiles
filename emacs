@@ -45,6 +45,8 @@
 
 (setq auth-sources '("~/.authinfo.gpg"))
 
+(use-package diminish)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Colour schemes
 
