@@ -159,6 +159,9 @@
 ;; Don't make a noise
 (setq ring-bell-function 'ignore)
 
+;; Maximise initial frame
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
