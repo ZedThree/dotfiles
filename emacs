@@ -195,6 +195,9 @@
   :hook
   (lsp-mode . yas-minor-mode-on)
 
+  :diminish
+  lsp-lens-mode
+  eldoc-mode
   :config
   (setq read-process-output-max (* 1024 1024)
         gc-cons-threshold 100000000
@@ -499,20 +502,29 @@
   (setq ffap-machine-p-known 'reject))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; elpy
+;; python
 
-(use-package elpy
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
+(use-package python-mode
+  :ensure nil
+  :hook
+  (python-mode . lsp)
 
   :config
-  (setq elpy-rpc-python-command "python3")
-  (setq elpy-test-runner 'elpy-test-pytest-runner)
+  (setq lsp-pylsp-plugins-flake8-enabled nil)
 
-  (when (require 'flycheck nil t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode)))
+  (use-package highlight-indentation
+    :diminish)
+
+  (use-package numpydoc
+    :ensure t
+    :bind (:map python-mode-map
+                ("C-c C-n" . numpydoc-generate))
+    :config
+    (setq numpydoc-insert-return-without-typehint t
+          numpydoc-insert-raises-block nil
+          numpydoc-insert-examples-block nil
+          numpydoc-insertion-style 'yas))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Syntax highlighting for modern C++ (11+)
