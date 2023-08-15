@@ -193,7 +193,7 @@
 (use-package lsp-mode
   :init
   :hook
-  (lsp . yas-minor-mode)
+  (lsp-mode . yas-minor-mode-on)
 
   :config
   (setq read-process-output-max (* 1024 1024)
