@@ -567,7 +567,11 @@
   :config
   (global-company-mode)
 
-  :diminish company-mode)
+  :diminish company-mode
+
+  :config
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.0))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile - project management
