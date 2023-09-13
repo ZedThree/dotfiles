@@ -520,7 +520,9 @@
   (python-mode . lsp)
 
   :config
-  (setq lsp-pylsp-plugins-flake8-enabled nil)
+  (setq lsp-pylsp-plugins-flake8-enabled nil
+        forward-sexp-function nil
+        )
 
   (use-package highlight-indentation
     :diminish)
