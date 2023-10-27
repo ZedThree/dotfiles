@@ -127,6 +127,9 @@ alias ltt='ls -tc --color=tty' # sort by change time, most recent first
 # Make ctest always show output on failure
 export CTEST_OUTPUT_ON_FAILURE=1
 
+# Always create compile_commands.json with CMake
+export CMAKE_EXPORT_COMPILE_COMMANDS=1
+
 # Silence BOUT++ tests
 export MPIRUN="mpiexec -np"
 
