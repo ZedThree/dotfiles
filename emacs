@@ -190,6 +190,11 @@
       (vc-mode vc-mode)
       "  " mode-line-misc-info mode-line-modes  mode-line-end-spaces))
 
+;; Don't show abbrev mode in mode-line
+(use-package abbrev
+  :ensure nil
+  :diminish)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
