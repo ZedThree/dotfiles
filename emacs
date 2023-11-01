@@ -243,7 +243,8 @@
 
   (use-package helm-lsp)
   (use-package dap-mode)
-  (use-package yasnippet)
+  (use-package yasnippet
+    :diminish yas-minor-mode)
   )
 
 ;; File regexes to ignore when using grep
