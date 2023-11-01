@@ -235,7 +235,9 @@
   (setq read-process-output-max (* 1024 1024)
         gc-cons-threshold 100000000
         lsp-enable-xref t
-        lsp-headerline-breadcrumb-enable nil)
+        lsp-headerline-breadcrumb-enable nil
+        lsp-pylsp-plugins-flake8-enabled nil)
+
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
   (add-to-list 'lsp-clients-clangd-args "--compile-commands-dir=./build")
