@@ -231,6 +231,13 @@
   :diminish
   lsp-lens-mode
   eldoc-mode
+
+  :bind
+  (:map lsp-signature-mode-map
+        ("C-c l s n" . lsp-signature-next)
+        ("C-c l s p" . lsp-signature-previous)
+        )
+
   :config
   (setq read-process-output-max (* 1024 1024)
         gc-cons-threshold 100000000
