@@ -126,6 +126,23 @@
  ((find-font (font-spec :name "Inconsolata LGC"))
   (set-frame-font "Inconsolata LGC-10" nil t)))
 
+;; Sort out emojis
+(setq use-default-font-for-symbols nil)
+(progn
+  ;; set font for emoji (if before emacs 28, should come after setting symbols. emacs 28 now has 'emoji . before, emoji is part of 'symbol)
+  (set-fontset-font
+   t
+   (if (version< emacs-version "28.1")
+       '(#x1f300 . #x1fad0)
+     'emoji
+     )
+   (cond
+    ((member "Twitter Color Emoji" (font-family-list)) "Twitter Color Emoji")
+    ((member "EmojiOne Color" (font-family-list)) "EmojiOne Color")
+    ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
+    ((member "Symbola" (font-family-list)) "Symbola"))))
+;; Check that emojis look ok: 🙂🙂
+
 ;; Desktop mode
 (desktop-save-mode 1)
 (setq desktop-path '("~/.emacs.d/desktop" "~" "~/.emacs.d/desktop"))
