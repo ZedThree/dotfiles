@@ -145,6 +145,7 @@
 
 ;; Desktop mode
 (desktop-save-mode 1)
+(setq desktop-load-locked-desktop t)
 (setq desktop-path '("~/.emacs.d/desktop" "~" "~/.emacs.d/desktop"))
 
 ;; Dictionary
