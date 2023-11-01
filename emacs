@@ -240,7 +240,6 @@
 
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
-  (add-to-list 'lsp-clients-clangd-args "--compile-commands-dir=./build")
 
   (use-package helm-lsp)
   (use-package dap-mode)
@@ -607,7 +606,13 @@
   (c++-mode . lsp)
 
   :config
-  (c-set-offset 'innamespace #'gvol-dont-indent-outernamespace))
+  (c-set-offset 'innamespace #'gvol-dont-indent-outernamespace)
+  (setq lsp-clangd-binary-path "/usr/bin/clangd"
+        lsp-clients-clangd-args '("-j" "2"
+                                  "--compile-commands-dir=./build"
+                                  "--header-insertion-decorators=0")
+        )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company mode for code completion
