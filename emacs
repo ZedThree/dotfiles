@@ -603,6 +603,7 @@
         ("C-c c r" . clang-format-region))
 
   :hook
+  (c-mode . lsp)
   (c++-mode . lsp)
 
   :config
