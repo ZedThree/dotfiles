@@ -557,6 +557,8 @@
   (setq lsp-pylsp-plugins-flake8-enabled nil
         forward-sexp-function nil
         )
+  :custom
+  (python-forward-sexp-function nil "Turn off stupid python mode forward-sexp")
 
   (use-package highlight-indentation
     :diminish)
