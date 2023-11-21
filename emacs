@@ -245,6 +245,8 @@
         lsp-headerline-breadcrumb-enable nil
         lsp-pylsp-plugins-flake8-enabled nil)
 
+  (define-key lsp-signature-mode-map (kbd "M-n") nil)
+  (define-key lsp-signature-mode-map (kbd "M-p") nil)
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
 
