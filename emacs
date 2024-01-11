@@ -757,6 +757,18 @@
          ("makefile\\.*"  . makefile-gmake-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; gdb
+
+;; The global value is 1, but this interferes with gdb's single
+;; character shortcuts
+(defun my-change-company-prefix-for-gud nil
+  (setq-local company-minimum-prefix-length 2))
+
+(use-package gdb
+  :ensure nil
+  :hook (gdb-mode . my-change-company-prefix-for-gud))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
 
 (add-hook 'after-init-hook 'server-start t)
