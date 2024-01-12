@@ -106,7 +106,7 @@
        '(("\\.cl\\'" . c-mode)
          ("\\.m\\'"    . matlab-mode)
          ("\\.inp\\'"  . conf-mode)
-         ("make\\.log" . compilation-mode))
+         ("make.*\\.log" . compilation-mode))
        auto-mode-alist))
 
 ;; Follow symlinks
