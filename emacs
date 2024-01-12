@@ -694,7 +694,10 @@
   (:map markdown-mode-map
         ("M-<right>" . markdown-demote)
         ("M-<left>" . markdown-promote)
-        ("C-c C-c /" . my-markdown-insert-columns))
+        ("C-c C-c /" . my-markdown-insert-columns)
+        ;; Don't clobber highlight-symbol bindings
+        ("M-p" . nil)
+        ("M-n" . nil))
   :hook
   (markdown-mode . auto-fill-mode)
 
