@@ -522,7 +522,16 @@
         ;; Nice window size
         helm-split-window-in-side-p t
         helm-autoresize-max-height 30
-        helm-autoresize-min-height 30)
+        helm-autoresize-min-height 30
+        helm-boring-buffer-regexp-list '("\\` "
+                                         "\\`\\*helm"
+                                         "\\`\\*Echo Area"
+                                         "\\`\\*Minibuf"
+                                         "\\`\\*fortls"
+                                         "\\`\\*.*lsp"
+                                         "\\`\\*Async"
+                                         "\\`\\*clangd")
+        )
 
   (use-package helm-flyspell
     :ensure t
