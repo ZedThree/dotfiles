@@ -41,6 +41,7 @@
 	process = git-lfs filter-process
 	required = true
 [blame]
-	ignoreRevsFile = .git-blame-ignore-revs
+    # Don't restore! Breaks blame if not found. Instead, set on per-project basis
+	# ignoreRevsFile = .git-blame-ignore-revs
 	markIgnoredLines = true
 	markUnblamableLines = true
