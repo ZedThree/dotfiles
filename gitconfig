@@ -45,3 +45,7 @@
 	# ignoreRevsFile = .git-blame-ignore-revs
 	markIgnoredLines = true
 	markUnblamableLines = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
