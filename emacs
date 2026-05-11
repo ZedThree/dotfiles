@@ -243,7 +243,14 @@
         gc-cons-threshold 100000000
         lsp-enable-xref t
         lsp-headerline-breadcrumb-enable nil
-        lsp-pylsp-plugins-flake8-enabled nil)
+        lsp-pylsp-plugins-flake8-enabled nil
+        lsp-pylsp-plugins-mccabe-enabled nil
+        lsp-pylsp-plugins-pydocstyle-enabled nil
+        lsp-idle-delay 0.5
+        lsp-log-io nil
+        lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-keep-workspace-alive nil
+        )
 
   (define-key lsp-signature-mode-map (kbd "M-n") nil)
   (define-key lsp-signature-mode-map (kbd "M-p") nil)
