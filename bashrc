@@ -124,6 +124,9 @@ alias lm='ls -ahl |more'    # pipe through 'more'
 alias lr='ls -lhR'          # recursive ls
 alias ltt='ls -tc --color=tty' # sort by change time, most recent first
 
+# Activate uv venv
+alias activate='source .venv/bin/activate'
+
 # Make ctest always show output on failure
 export CTEST_OUTPUT_ON_FAILURE=1
 
