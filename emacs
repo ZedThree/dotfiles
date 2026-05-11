@@ -421,6 +421,17 @@
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell))
 
+(use-package forge
+  :after magit
+
+  ;; :init
+  ;; (setq forge-status-buffer-default-topic-filters
+  ;;       #s(forge--topics-spec topic nil open nil nil nil nil nil nil nil "" "" "" nil newest 200 nil))
+  )
+
+(use-package magit-pre-commit
+  :after magit)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compile customisation
 
