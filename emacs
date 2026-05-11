@@ -195,6 +195,20 @@
   :ensure nil
   :diminish)
 
+(defun big-scale ()
+  "Scale emacs for big monitor"
+  (interactive)
+  (global-text-scale-adjust 4))
+
+(defun small-scale ()
+  "Scale emacs for small monitor"
+  (interactive)
+  (global-text-scale-adjust -4))
+
+
+;; 70 is just way too short
+(setq-default fill-column 80)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
 
