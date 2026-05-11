@@ -658,13 +658,18 @@
   :hook
   (c-mode . lsp)
   (c++-mode . lsp)
+  (c-ts-mode . lsp)
+  (c++-ts-mode . lsp)
 
   :config
   (c-set-offset 'innamespace #'gvol-dont-indent-outernamespace)
   (setq lsp-clangd-binary-path "/usr/bin/clangd"
         lsp-clients-clangd-args '("-j" "2"
                                   "--compile-commands-dir=./build"
-                                  "--header-insertion-decorators=0")
+                                  "--header-insertion-decorators"
+                                  "--clang-tidy"
+                                  "--background-index"
+                                  "--background-index-priority=low")
         )
   )
 
@@ -811,6 +816,52 @@
 (use-package gdb
   :ensure nil
   :hook (gdb-mode . my-change-company-prefix-for-gud))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Tree-sitter stuff
+
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (fortran "https://github.com/stadelmanma/tree-sitter-fortran")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+     (julia "https://github.com/tree-sitter/tree-sitter-julia")
+     ))
+
+(use-package treesit-auto
+  :config
+  (global-treesit-auto-mode))
+
+(use-package typescript-ts-mode
+  :mode (("\\.js\\'" . typescript-ts-mode)
+         ("\\.ts\\'" . typescript-ts-mode))
+
+  :hook (typescript-ts-mode . lsp))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Julia
+
+(use-package lsp-julia
+  :config
+  (setq lsp-julia-default-environment "~/.julia/environments/v1.11"))
+
+(use-package julia-ts-mode
+  :hook
+  (julia-ts-mode . lsp)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
