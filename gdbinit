@@ -17,6 +17,9 @@ set print inferior-events off
 
 set max-completions 20
 
+skip -gfi /usr/include/c++/15/bits/*.h
+skip -gfi /usr/include/c++/15/bits/*.tcc
+
 python
 import sys
 sys.path.insert(0, '/usr/share/gcc-10/python')
