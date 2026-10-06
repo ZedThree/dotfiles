@@ -133,6 +133,9 @@ export CTEST_OUTPUT_ON_FAILURE=1
 # Always create compile_commands.json with CMake
 export CMAKE_EXPORT_COMPILE_COMMANDS=1
 
+# Always use Ninja
+export CMAKE_GENERATOR=Ninja
+
 # Silence BOUT++ tests
 export MPIRUN="mpiexec -np"
 
