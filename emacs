@@ -99,9 +99,6 @@
 ;; Ordinarily emacs jumps by half a page when scrolling - reduce this to 1 line
 (setq scroll-step 1)
 
-;; When saving files, set execute permission if #! is in first line.
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
 ;; Set MajorMode preferences based on filenames
 (setq auto-mode-alist
       (append
@@ -812,6 +809,25 @@
   :ensure nil
   :mode (("Makefile\\.*"  . makefile-gmake-mode)
          ("makefile\\.*"  . makefile-gmake-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rust
+
+(use-package rustic
+  :config
+  (setq rustic-format-on-save t)
+  (remove-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p t)
+  (rustic-flycheck-setup)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Bash
+
+(use-package shell
+  :config
+  ;; When saving files, set execute permission if #! is in first line.
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p t)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; gdb
