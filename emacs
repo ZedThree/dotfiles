@@ -871,6 +871,22 @@
   (julia-ts-mode . lsp)
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ediff
+;; Source - https://stackoverflow.com/a/29757750
+;; Posted by killdash9, modified by community. See post 'Timeline' for change history
+;; Retrieved 2026-05-12, License - CC BY-SA 3.0
+
+(defun ediff-copy-both-to-C ()
+  "Copy both regions to C"
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+(defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Last thing, start server
 
