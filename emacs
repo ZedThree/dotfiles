@@ -620,7 +620,29 @@
           numpydoc-insert-raises-block nil
           numpydoc-insert-examples-block nil
           numpydoc-insertion-style 'yas))
+
   )
+
+(use-package python-ts-mode
+  :ensure nil
+  :hook
+  (python-ts-mode . lsp)
+)
+
+(use-package pyvenv
+  :demand t
+  :config
+  (pyvenv-tracking-mode 1)
+  (pyvenv-mode 1))
+
+(use-package pyvenv-auto
+  :hook ((python-mode . pyvenv-auto-run)))
+
+(use-package auto-virtualenv
+  :load-path "path/to/auto-virtualenv"
+  :config
+  (setq auto-virtualenv-verbose t)
+  (auto-virtualenv-setup))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Syntax highlighting for modern C++ (11+)
