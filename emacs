@@ -43,6 +43,7 @@
 ;; Ensure all packages are installed
 (setq use-package-always-ensure t)
 
+;; Store secrets in encrypted file
 (setq auth-sources '("~/.authinfo.gpg"))
 
 (use-package diminish)
@@ -70,6 +71,7 @@
 ;; Display line and column numbers on the status line
 (setq line-number-mode   t)
 (setq column-number-mode t)
+(setq column-number-indicator-zero-based nil)
 
 ;; Turn off menu-bar, tool-bar, scroll-bar
 (tool-bar-mode -1)
@@ -143,6 +145,9 @@
     ((member "Symbola" (font-family-list)) "Symbola"))))
 ;; Check that emojis look ok: 🙂🙂
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 ;; Desktop mode
 (desktop-save-mode 1)
 (setq desktop-load-locked-desktop t)
@@ -208,6 +213,9 @@
 
 ;; 70 is just way too short
 (setq-default fill-column 80)
+
+;; Per-window xref history
+(setq xref-history-storage #'xref-window-local-history)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fortran
@@ -683,8 +691,8 @@
   :diminish company-mode
 
   :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0))
+  (setq company-minimum-prefix-length 2
+        company-idle-delay 0.1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile - project management
