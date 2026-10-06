@@ -270,6 +270,8 @@
         lsp-rust-analyzer-cargo-watch-command "clippy"
         lsp-keep-workspace-alive nil
         )
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build.*\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\..*cache.*\\'")
 
   (define-key lsp-signature-mode-map (kbd "M-n") nil)
   (define-key lsp-signature-mode-map (kbd "M-p") nil)
