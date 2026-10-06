@@ -815,15 +815,15 @@
 ;; Search cppreference
 
 ;; Adapted from https://batsov.com/articles/2011/11/19/why-emacs/
-(defun cppreference-query ()
+(defun cppreference-query (query)
   "Searches cppreference"
-  (interactive)
+  (interactive (list (read-string "cppreference: " (if (region-active-p)
+        (buffer-substring-no-properties (region-beginning) (region-end))
+      (thing-at-point 'symbol)))))
   (browse-url
    (concat
-    "https://en.cppreference.com/mwiki/index.php?title=Special:Search&search="
-    (if mark-active
-        (buffer-substring (region-beginning) (region-end))
-      (read-string "cppreference: ")))))
+    "https://en.cppreference.com/index.php?title=Special%3ASearch&go=&search="
+    query)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Makefiles
